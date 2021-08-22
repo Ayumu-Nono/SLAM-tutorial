@@ -96,6 +96,3 @@ class IdealSenser:
             for angle in angles
         ]
         return scan_points
-
-
-

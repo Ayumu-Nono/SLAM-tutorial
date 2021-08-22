@@ -1,5 +1,4 @@
-from typing import List
-import itertools
+import math
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,6 +12,7 @@ from model.robot import IdealRobot
 def draw(world: World, robot: IdealRobot, outpath: str):
     fig = plt.figure(figsize=(12, 10))
     ax = fig.add_subplot(111)
+    ax.set_aspect("equal")
     ax.set_xlim(world.xlim)
     ax.set_ylim(world.ylim)
     rs = [
@@ -23,19 +23,20 @@ def draw(world: World, robot: IdealRobot, outpath: str):
         ax.add_patch(r)
 
     # robot
-    ax.scatter(robot.position[0], robot.position[1], color="red", s=100)
-    # scan結果
-    _segments = [
-        obs.segments
-        for obs in world.obstacles
-    ]
-    segments: list = list(itertools.chain.from_iterable(_segments))
-    scan_points: List[tuple] = robot.senser.scan(
-        position=robot.position,
-        segments=segments
+    x, y = robot.position
+    x_nose = x + 0.2 * math.cos(robot.angle)
+    y_nose = y + 0.2 * math.sin(robot.angle)
+    ax.plot([x, x_nose], [y, y_nose], color="green")
+    c = patches.Circle(
+        xy=(x, y),
+        radius=0.2,
+        fill=False,
+        color="green"
     )
-    for point in scan_points:
-        ax.scatter(point[0], point[1], color="orange", zorder=3)
+    ax.add_patch(c)
+    # scan結果
+    scan_points = np.array(robot.see(world=world))
+    ax.scatter(scan_points[:, 0], scan_points[:, 1], color="orange")
     fig.savefig(outpath)
 
 

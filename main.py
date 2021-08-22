@@ -1,15 +1,14 @@
-import pandas as pd
+import os
+import shutil
 
 from drawer import draw
+from animater import create_gif
 from model.world import World
 from model.world import Rectangle
 from model.robot import IdealRobot
 
 
-df = pd.read_csv("test.csv")
-print(df)
-
-ayumu1 = IdealRobot(position=(4, 1), velocity=0, angle=0)
+ayumu1 = IdealRobot(position=(0.5, 0.5), angle=0)
 stage1 = World(
     obstacles=[
         Rectangle(xy=(1, 1), width=1, height=2),
@@ -21,8 +20,15 @@ stage1 = World(
     ]
 )
 
-for i in range(len(df)):
-    outpath = "img/{0}.png".format(df.loc[i, "t"])
-    ayumu1.position = (df.loc[i, "x"], df.loc[i, "y"])
-    draw(world=stage1, robot=ayumu1, outpath=outpath)
-    
+
+dir = "img"
+shutil.rmtree(dir)
+os.makedirs(dir, exist_ok=True)
+
+for t in range(200):
+    if t % 2 == 0:
+        outpath = os.path.join(dir, "{0:03}.png".format(t))
+        draw(world=stage1, robot=ayumu1, outpath=outpath)
+    ayumu1.each_step(world=stage1)
+
+create_gif(out_filename="animation.gif")
