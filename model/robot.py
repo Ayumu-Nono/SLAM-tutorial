@@ -13,6 +13,8 @@ from .world import World
 
 
 dt = 0.01
+seed = 10
+np.random.seed(seed=seed)
 
 
 class IdealRobot:
@@ -30,15 +32,20 @@ class IdealRobot:
         self.storage: Storage = Storage()
 
     def move(
-        self, velocity: float, angular_velocity: float, dt: float
+        self, velocity: float, angular_velocity: float, dt: float,
+        noise_rate=1  # ノイズ付加の割合
     ) -> None:
         old_position: np.ndarray = np.array(self.status.position)
         old_angle: float = self.status.angle
         dx = velocity * np.cos(self.status.angle) * dt
         dy = velocity * np.sin(self.status.angle) * dt
         d_position: np.ndarray = np.array([dx, dy])
+        d_theta: float = angular_velocity * dt
         new_position: np.ndarray = old_position + d_position
-        new_angle: float = old_angle + angular_velocity * dt
+        new_angle: float = old_angle + d_theta
+        # noise
+        new_position += np.random.randn() * noise_rate * 0.3 * d_position
+        new_angle += np.random.randn() * noise_rate * 1.5 * d_theta
         self.status.change(position=tuple(new_position), angle=new_angle)
 
     def see(self, world: World) -> ScanData:
