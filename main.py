@@ -27,10 +27,10 @@ dir = "img"
 shutil.rmtree(dir)
 os.makedirs(dir, exist_ok=True)
 
-for t in tqdm(range(100)):
-    if t % 2 == 0:
+for t in tqdm(range(50)):
+    ayumu1.each_step(t=t, world=stage1)
+    if t % 1 == 0:
         outpath = os.path.join(dir, "{0:03}.png".format(t))
         draw(world=stage1, robot=ayumu1, outpath=outpath)
-    ayumu1.each_step(world=stage1)
 
 create_gif(out_filename="animation.gif")

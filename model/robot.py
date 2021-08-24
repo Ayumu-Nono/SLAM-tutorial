@@ -68,10 +68,13 @@ class IdealRobot:
         if t > 0:
             ref_status: Status = self.storage.robot_estd_status_list[-1]
             ref_scan_data: ScanData = self.storage.scan_data_list[-1]
+            old_decision: Decision = self.storage.decision_list[-1]
             self.estd_status = self.estimater.estimate(
                 ref_status=ref_status,
                 ref_scan=ref_scan_data,
-                now_scan=scan_data
+                now_scan=scan_data,
+                old_decision=old_decision,
+                dt=dt
             )
             decision: Decision = self.pilot.decide(
                 t=t,
@@ -97,5 +100,4 @@ class IdealRobot:
             scan_data=scan_data,
             decision=decision
         )
-        print(storage_status)
 

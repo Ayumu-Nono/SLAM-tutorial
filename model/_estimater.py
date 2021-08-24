@@ -1,8 +1,11 @@
 from typing import List
 import copy
 
+import numpy as np
+
 from ._senser import ScanData
 from ._status import Status
+from ._pilot import Decision
 
 
 class Estimater:
@@ -11,8 +14,10 @@ class Estimater:
         pass
 
     def estimate(
-        self, ref_status: Status, ref_scan: ScanData, now_scan: ScanData,
-        cost_thre=1
+        self, ref_status: Status,
+        ref_scan: ScanData, now_scan: ScanData,
+        old_decision: Decision,
+        dt: float, cost_thre=1
     ) -> Status:
         """
             args: ref_scan, now_scan
@@ -23,7 +28,12 @@ class Estimater:
         while (cost >= cost_thre):
             old_position: tuple = ref_status.position
             old_angle: float = ref_status.angle
-            now_status.change(position=(old_position[0] + 1, old_position[1]), angle=None)
+            dx: float = old_decision.velocity * np.cos(old_angle) * dt
+            dy: float = old_decision.velocity * np.sin(old_angle) * dt
+            dtheta: float = old_decision.angular_velocity * dt
+            estd_position: tuple = (old_position[0] + dx, old_position[1] + dy)
+            estd_angle: float = old_angle + dtheta
+            now_status.change(position=estd_position, angle=estd_angle)
             # score更新
 
             cost = 0.9

@@ -4,6 +4,10 @@ from ._status import Status
 
 
 class Decision:
+    """
+        velocity: 速度
+        angular_velocity: 角速度
+    """
     def __init__(
         self, t: int, velocity: float, angular_velocity: float
     ) -> None:
@@ -23,6 +27,6 @@ class Pilot:
             args:
             return: (velocity, angular_velocity)
         """
-        decision = Decision(t=t, velocity=10, angular_velocity=0)
+        decision = Decision(t=t, velocity=10, angular_velocity=-0.5)
         return decision
         
