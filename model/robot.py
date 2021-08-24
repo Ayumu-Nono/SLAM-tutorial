@@ -6,7 +6,7 @@ import numpy as np
 
 from ._status import Status
 from ._senser import IdealSenser, ScanData
-from ._pilot import Pilot
+from ._pilot import Pilot, Decision
 from ._estimater import Estimater
 from ._storage import Storage
 from .world import World
@@ -60,7 +60,7 @@ class IdealRobot:
         )
         self.estd_status = estd_status
 
-    def think(self, t: int, world: World) -> tuple:
+    def think(self, t: int, world: World) -> Decision:
         """
             return: (velocity, angular_velocity)
         """
@@ -69,24 +69,33 @@ class IdealRobot:
             ref_status: Status = self.storage.robot_estd_status_list[-1]
             ref_scan_data: ScanData = self.storage.scan_data_list[-1]
             self.estd_status = self.estimater.estimate(
-                ref_status=ref_status, ref_scan=ref_scan_data, now_scan=scan_data
+                ref_status=ref_status,
+                ref_scan=ref_scan_data,
+                now_scan=scan_data
             )
-            decision: tuple = self.pilot.decide(
-                position=self.estd_status.position, angle=self.estd_status.angle,
+            decision: Decision = self.pilot.decide(
+                t=t,
+                status=self.estd_status,
                 scan_data=scan_data
             )
         else:
-            decision = (0, 0)  # 最初は動かない
+            decision = Decision(t=t, velocity=0, angular_velocity=0)  # 最初は動かない
         return decision
 
     def each_step(self, t: int, world: World) -> None:
         scan_data: ScanData = self.see(world=world)
-        decision: tuple = self.think(t=t, world=world)
-        self.move(velocity=decision[0], angular_velocity=decision[1], dt=dt)
+        decision: Decision = self.think(t=t, world=world)
+        self.move(
+            velocity=decision.velocity,
+            angular_velocity=decision.angular_velocity,
+            dt=dt
+        )
         # 後処理
-        self.storage.store(
+        storage_status: dict = self.storage.store(
             robot_true_status=self.status,
             robot_estd_status=self.estd_status,
-            scan_data=scan_data
+            scan_data=scan_data,
+            decision=decision
         )
+        print(storage_status)
 
