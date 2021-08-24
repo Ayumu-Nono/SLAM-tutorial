@@ -23,9 +23,9 @@ def draw(world: World, robot: IdealRobot, outpath: str):
         ax.add_patch(r)
 
     # robot
-    x, y = robot.position
-    x_nose = x + 0.2 * math.cos(robot.angle)
-    y_nose = y + 0.2 * math.sin(robot.angle)
+    x, y = robot.status.position
+    x_nose = x + 0.2 * math.cos(robot.status.angle)
+    y_nose = y + 0.2 * math.sin(robot.status.angle)
     ax.plot([x, x_nose], [y, y_nose], color="green")
     c = patches.Circle(
         xy=(x, y),
@@ -35,7 +35,9 @@ def draw(world: World, robot: IdealRobot, outpath: str):
     )
     ax.add_patch(c)
     # scan結果
-    scan_points = np.array(robot.see(world=world))
+    scan_points = np.array(
+        robot.see(world=world).get_as_cartesian(robot.status.position)
+    )
     ax.scatter(scan_points[:, 0], scan_points[:, 1], color="orange")
     fig.savefig(outpath)
 
