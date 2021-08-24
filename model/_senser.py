@@ -83,6 +83,8 @@ def _receive(
 class ScanData:
     """
         raw: (distance, angle)
+            distance: ロボットからの距離
+            angle: ロボットからみた角度。正面が0[rad]
         points: (x, y)
     """
     def __init__(self, raw: List[tuple]) -> None:
@@ -91,12 +93,14 @@ class ScanData:
     def get_as_polar(self, self_position: tuple) -> List[tuple]:
         return self.raw
 
-    def get_as_cartesian(self, self_position: tuple) -> List[tuple]:
+    def get_as_cartesian(
+        self, self_position: tuple, self_angle: float
+    ) -> List[tuple]:
         """直交座標で取得"""
-        distances: np.ndarray = np.array(self.raw)[:, 0]
+        ds: np.ndarray = np.array(self.raw)[:, 0]
         angles: np.ndarray = np.array(self.raw)[:, 1]
-        xs: np.ndarray = distances * np.cos(angles) + self_position[0]
-        ys: np.ndarray = distances * np.sin(angles) + self_position[1]
+        xs: np.ndarray = ds * np.cos(angles + self_angle) + self_position[0]
+        ys: np.ndarray = ds * np.sin(angles + self_angle) + self_position[1]
         assert len(xs) == len(ys)
         points: List[tuple] = [
             (xs[i], ys[i]) for i in range(len(xs))
@@ -109,24 +113,25 @@ class IdealSenser:
         pass
 
     def scan(
-        self, position: tuple, segments: List[Tuple[tuple, tuple]]
+        self, self_position: tuple, self_angle: float,
+        segments: List[Tuple[tuple, tuple]]
     ) -> ScanData:
         angles: np.ndarray = np.linspace(-np.pi, np.pi, 100)
         scan_points: List[tuple] = [
             _receive(
-                half_line=_irradiate(position=position, angle=angle),
+                half_line=_irradiate(position=self_position, angle=angle),
                 segments=segments
             )
             for angle in angles
         ]
         assert len(scan_points) == len(angles)
         distances: np.ndarray = np.linalg.norm(
-            np.array(scan_points) - position,
+            np.array(scan_points) - self_position,
             axis=1
         )
         scan_data: ScanData = ScanData(
             raw=[
-                (distances[i], angle)
+                (distances[i], angle - self_angle)  # robotから見た角度
                 for i, angle in enumerate(angles)
             ]
         )

@@ -48,7 +48,9 @@ class IdealRobot:
         _segments = [obs.segments for obs in world.obstacles]
         segments: list = list(itertools.chain.from_iterable(_segments))
         scan_data: ScanData = self.senser.scan(
-            position=self.status.position, segments=segments
+            self_position=self.status.position,
+            self_angle=self.status.angle,
+            segments=segments
         )
         return scan_data
 

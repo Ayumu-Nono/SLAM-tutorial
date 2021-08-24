@@ -36,14 +36,17 @@ def draw(world: World, robot: IdealRobot, outpath: str):
     ax.add_patch(c)
     # scan結果
     scan_points = np.array(
-        robot.see(world=world).get_as_cartesian(robot.status.position)
+        robot.see(world=world).get_as_cartesian(
+            self_position=robot.status.position,
+            self_angle=robot.status.angle
+        )
     )
     ax.scatter(scan_points[:, 0], scan_points[:, 1], color="orange")
     fig.savefig(outpath)
 
 
 if __name__ == "__main__":
-    ayumu1 = IdealRobot(position=(4, 1), velocity=0, angle=0)
+    ayumu1 = IdealRobot(position=(4, 1), velocity=0, angle=3.14 / 2)
     stage1 = World(
         obstacles=[
             Rectangle(xy=(1, 1), width=1, height=2),
