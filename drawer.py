@@ -26,14 +26,38 @@ def draw(world: World, robot: IdealRobot, outpath: str):
     x, y = robot.status.position
     x_nose = x + 0.2 * math.cos(robot.status.angle)
     y_nose = y + 0.2 * math.sin(robot.status.angle)
-    ax.plot([x, x_nose], [y, y_nose], color="green")
+    ax.plot([x, x_nose], [y, y_nose], color="red", alpha=0.2)
     c = patches.Circle(
         xy=(x, y),
         radius=0.2,
         fill=False,
-        color="green"
+        color="red",
+        alpha=0.2
     )
     ax.add_patch(c)
+    # 推定位置
+    now_status = robot.estd_status
+    x, y = now_status.position
+    x_nose = x + 0.2 * math.cos(now_status.angle)
+    y_nose = y + 0.2 * math.sin(now_status.angle)
+    ax.plot([x, x_nose], [y, y_nose], color="black")
+    c1 = patches.Circle(
+        xy=(x, y),
+        radius=0.2,
+        fill=False,
+        color="black",
+        alpha=1.0
+    )
+    ax.add_patch(c1) 
+    # 軌跡
+    xys: np.ndarray = np.array([
+        true_status.position
+        for true_status in robot.storage.robot_true_status_list
+    ])
+    xys = xys.T
+    print(xys)
+    ax.plot(xys[0], xys[1], color="red", alpha=0.2)
+
     # scan結果
     scan_points = np.array(
         robot.see(world=world).get_as_cartesian(
