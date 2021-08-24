@@ -52,15 +52,21 @@ class IdealRobot:
         return scan_data
 
     def orient(
-        self, ref_status: Status, ref_scan: ScanData, now_scan: ScanData
+        self,
+        ref_status: Status, ref_scan: Optional[ScanData],
+        now_scan: Optional[ScanData], now_decision: Optional[Decision]
     ) -> None:
         """orient: 自分自身を正しい位置に置く"""
-        estd_status: Status = self.estimater.estimate(
-            ref_status=ref_status, ref_scan=ref_scan, now_scan=now_scan
-        )
-        self.estd_status = estd_status
+        if ref_scan is not None and now_scan is not None:
+            self.estd_status = self.estimater.smooth_w_scan(
+                ref_status=ref_status, ref_scan=ref_scan, now_scan=now_scan
+            )
+        if now_decision is not None:
+            self.estd_status = self.estimater.predict_w_odometory(
+                old_status=ref_status, now_decision=now_decision, dt=dt
+            )
 
-    def think(self, t: int, world: World) -> Decision:
+    def make_decision(self, t: int, world: World) -> Decision:
         """
             return: (velocity, angular_velocity)
         """
@@ -68,13 +74,9 @@ class IdealRobot:
         if t > 0:
             ref_status: Status = self.storage.robot_estd_status_list[-1]
             ref_scan_data: ScanData = self.storage.scan_data_list[-1]
-            old_decision: Decision = self.storage.decision_list[-1]
-            self.estd_status = self.estimater.estimate(
-                ref_status=ref_status,
-                ref_scan=ref_scan_data,
-                now_scan=scan_data,
-                old_decision=old_decision,
-                dt=dt
+            self.orient(
+                ref_status=ref_status, ref_scan=ref_scan_data,
+                now_scan=scan_data, now_decision=None
             )
             decision: Decision = self.pilot.decide(
                 t=t,
@@ -87,11 +89,16 @@ class IdealRobot:
 
     def each_step(self, t: int, world: World) -> None:
         scan_data: ScanData = self.see(world=world)
-        decision: Decision = self.think(t=t, world=world)
+        decision: Decision = self.make_decision(t=t, world=world)
         self.move(
             velocity=decision.velocity,
             angular_velocity=decision.angular_velocity,
             dt=dt
+        )
+        # 移動後の位置の予測
+        self.orient(
+            ref_status=self.estd_status, ref_scan=None,
+            now_scan=None, now_decision=decision
         )
         # 後処理
         storage_status: dict = self.storage.store(

@@ -13,31 +13,39 @@ class Estimater:
     def __init__(self) -> None:
         pass
 
-    def estimate(
+    def smooth_w_scan(
         self, ref_status: Status,
         ref_scan: ScanData, now_scan: ScanData,
-        old_decision: Decision,
-        dt: float, cost_thre=1
+        cost_thre=1
     ) -> Status:
         """
+            scanデータでスムージング
             args: ref_scan, now_scan
             return: self status
         """
-        now_status: Status = copy.deepcopy(ref_status)
+        smtd_status: Status = copy.deepcopy(ref_status)
         cost: float = 1e5
         while (cost >= cost_thre):
-            old_position: tuple = ref_status.position
-            old_angle: float = ref_status.angle
-            dx: float = old_decision.velocity * np.cos(old_angle) * dt
-            dy: float = old_decision.velocity * np.sin(old_angle) * dt
-            dtheta: float = old_decision.angular_velocity * dt
-            estd_position: tuple = (old_position[0] + dx, old_position[1] + dy)
-            estd_angle: float = old_angle + dtheta
-            now_status.change(position=estd_position, angle=estd_angle)
+            # now_status.change(position=estd_position, angle=estd_angle)
             # score更新
 
             cost = 0.9
             
-        return now_status
+        return smtd_status
+
+    def predict_w_odometory(
+        self, old_status: Status, now_decision: Decision, dt: float
+    ) -> Status:
+        """オドメトリで予測"""
+        pred_status: Status = copy.deepcopy(old_status)
+        old_position: tuple = old_status.position
+        old_angle: float = old_status.angle
+        dx: float = now_decision.velocity * np.cos(old_angle) * dt
+        dy: float = now_decision.velocity * np.sin(old_angle) * dt
+        dtheta: float = now_decision.angular_velocity * dt
+        estd_position: tuple = (old_position[0] + dx, old_position[1] + dy)
+        estd_angle: float = old_angle + dtheta
+        pred_status.change(position=estd_position, angle=estd_angle)
+        return pred_status
         
         
