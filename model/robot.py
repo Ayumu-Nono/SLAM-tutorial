@@ -5,20 +5,12 @@ import numpy as np
 
 from ._senser import IdealSenser, ScanData
 from ._pilot import Pilot
+from ._estimater import Estimater
+from ._status import Status
 from .world import World
 
 
 dt = 0.01
-
-
-class Status:
-    def __init__(self, position: tuple, angle: float) -> None:
-        self.position: tuple = position
-        self.angle: float = angle
-
-    def change(self, position: tuple, angle: float) -> None:
-        self.position = position
-        self.angle = angle
 
 
 class IdealRobot:
@@ -31,6 +23,7 @@ class IdealRobot:
         self.status: Status = Status(position=position, angle=angle)
         self.senser: IdealSenser = IdealSenser()
         self.pilot: Pilot = Pilot()
+        self.estimater: Estimater = Estimater()
 
     def move(
         self, velocity: float, angular_velocity: float, dt: float
