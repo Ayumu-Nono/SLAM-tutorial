@@ -80,13 +80,37 @@ def _receive(
     return results[i_nearest]
 
 
+class ScanData:
+    """
+        raw: (distance, angle)
+        points: (x, y)
+    """
+    def __init__(self, raw: List[tuple]) -> None:
+        self.raw: List[tuple] = raw
+
+    def get_as_polar(self, self_position: tuple) -> List[tuple]:
+        return self.raw
+
+    def get_as_cartesian(self, self_position: tuple) -> List[tuple]:
+        """直交座標で取得"""
+        distances: np.ndarray = np.array(self.raw)[:, 0]
+        angles: np.ndarray = np.array(self.raw)[:, 1]
+        xs: np.ndarray = distances * np.cos(angles) + self_position[0]
+        ys: np.ndarray = distances * np.sin(angles) + self_position[1]
+        assert len(xs) == len(ys)
+        points: List[tuple] = [
+            (xs[i], ys[i]) for i in range(len(xs))
+        ]
+        return points
+
+
 class IdealSenser:
     def __init__(self) -> None:
         pass
 
     def scan(
         self, position: tuple, segments: List[Tuple[tuple, tuple]]
-    ) -> List[tuple]:
+    ) -> ScanData:
         angles: np.ndarray = np.linspace(-np.pi, np.pi, 100)
         scan_points: List[tuple] = [
             _receive(
@@ -95,4 +119,15 @@ class IdealSenser:
             )
             for angle in angles
         ]
-        return scan_points
+        assert len(scan_points) == len(angles)
+        distances: np.ndarray = np.linalg.norm(
+            np.array(scan_points) - position,
+            axis=1
+        )
+        scan_data: ScanData = ScanData(
+            raw=[
+                (distances[i], angle)
+                for i, angle in enumerate(angles)
+            ]
+        )
+        return scan_data
