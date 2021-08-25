@@ -10,10 +10,9 @@ from ._pilot import Pilot, Decision
 from ._estimater import Estimater
 from ._storage import Storage
 from .world import World
+from ._parameter import dt, seed
 
 
-dt = 0.01
-seed = 10
 np.random.seed(seed=seed)
 
 
@@ -33,7 +32,7 @@ class IdealRobot:
 
     def move(
         self, velocity: float, angular_velocity: float, dt: float,
-        noise_rate=1  # ノイズ付加の割合
+        noise_rate=2  # ノイズ付加の割合
     ) -> None:
         old_position: np.ndarray = np.array(self.status.position)
         old_angle: float = self.status.angle

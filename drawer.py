@@ -5,14 +5,22 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 from model.world import World
-from model.world import Rectangle
 from model.robot import IdealRobot
+
+
+true_color: str = "black"
+true_alpha: float = 0.3
+estd_color: str = "green"
+estd_alpha: float = 1.0
+p_color: str = "blue"
+p_alpha: float = 0.7
 
 
 def draw(world: World, robot: IdealRobot, outpath: str):
     fig = plt.figure(figsize=(12, 10))
     ax = fig.add_subplot(111)
     ax.set_aspect("equal")
+    plt.rcParams["font.size"] = 14
     ax.set_xlim(world.xlim)
     ax.set_ylim(world.ylim)
     rs = [
@@ -23,40 +31,63 @@ def draw(world: World, robot: IdealRobot, outpath: str):
         ax.add_patch(r)
 
     # robot
-    x, y = robot.status.position
-    x_nose = x + 0.2 * math.cos(robot.status.angle)
-    y_nose = y + 0.2 * math.sin(robot.status.angle)
-    ax.plot([x, x_nose], [y, y_nose], color="red", alpha=0.2)
+    status = robot.storage.robot_true_status_list[-2]
+    x, y = status.position
+    x_nose = x + 0.3 * math.cos(status.angle)
+    y_nose = y + 0.3 * math.sin(status.angle)
+    ax.plot([x, x_nose], [y, y_nose], color=true_color, alpha=true_alpha)
     c = patches.Circle(
         xy=(x, y),
         radius=0.2,
         fill=False,
-        color="red",
-        alpha=0.2
+        color=true_color,
+        alpha=true_alpha
     )
     ax.add_patch(c)
     # 推定位置
-    now_status = robot.estd_status
-    x, y = now_status.position
-    x_nose = x + 0.2 * math.cos(now_status.angle)
-    y_nose = y + 0.2 * math.sin(now_status.angle)
-    ax.plot([x, x_nose], [y, y_nose], color="black")
+    # 推定するタイミングはoptimizeするタイミングの後なので、1ステップ前を描画してあげる
+    estd_status = robot.storage.robot_estd_status_list[-2]
+    x, y = estd_status.position
+    x_nose = x + 0.3 * math.cos(estd_status.angle)
+    y_nose = y + 0.3 * math.sin(estd_status.angle)
+    ax.plot([x, x_nose], [y, y_nose], color=estd_color)
     c1 = patches.Circle(
         xy=(x, y),
         radius=0.2,
         fill=False,
-        color="black",
-        alpha=1.0
+        color=estd_color
     )
     ax.add_patch(c1) 
+    # particleたち
+    for p in robot.estimater.smoother.particles:
+        now_status = p
+        x, y = now_status.position
+        x_nose = x + 0.3 * math.cos(now_status.angle)
+        y_nose = y + 0.3 * math.sin(now_status.angle)
+        ax.plot([x, x_nose], [y, y_nose], color=p_color)
+        c1 = patches.Circle(
+            xy=(x, y),
+            radius=0.2,
+            fill=False,
+            color=p_color
+        )
+        ax.add_patch(c1)
+        
     # 軌跡
     xys: np.ndarray = np.array([
         true_status.position
-        for true_status in robot.storage.robot_true_status_list
+        for true_status in robot.storage.robot_true_status_list[:-1]
     ])
     xys = xys.T
-    print(xys)
-    ax.plot(xys[0], xys[1], color="red", alpha=0.2)
+    ax.plot(xys[0], xys[1], color=true_color, alpha=true_alpha, label="true orbit")
+    
+    xys = np.array([
+        estd_status.position
+        for estd_status in robot.storage.robot_estd_status_list[:-1]
+    ])
+    xys = xys.T
+    ax.plot(xys[0], xys[1], color=estd_color, alpha=estd_alpha, label="estimated orbit")
+
 
     # scan結果
     scan_points = np.array(
@@ -66,19 +97,14 @@ def draw(world: World, robot: IdealRobot, outpath: str):
         )
     )
     ax.scatter(scan_points[:, 0], scan_points[:, 1], color="orange")
-    fig.savefig(outpath)
-
-
-if __name__ == "__main__":
-    ayumu1 = IdealRobot(position=(4, 1), velocity=0, angle=3.14 / 2)
-    stage1 = World(
-        obstacles=[
-            Rectangle(xy=(1, 1), width=1, height=2),
-            Rectangle(xy=(5, 0), width=1, height=8),
-            Rectangle(xy=(0, 0), width=10, height=0.1),
-            Rectangle(xy=(9.9, 0), width=0.1, height=10),
-            Rectangle(xy=(0, 9.9), width=10, height=0.1),
-            Rectangle(xy=(0, 0), width=0.1, height=10)
-        ]
+    # 推定スキャン
+    scan_points = np.array(
+        robot.see(world=world).get_as_cartesian(
+            self_position=estd_status.position,
+            self_angle=estd_status.angle
+        )
     )
-    draw(world=stage1, robot=ayumu1, outpath="world.png")
+    ax.scatter(scan_points[:, 0], scan_points[:, 1], fc="white", ec="black")
+    plt.legend()
+    fig.savefig(outpath)
+    plt.close()

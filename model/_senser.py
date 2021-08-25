@@ -3,6 +3,8 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
+from ._parameter import num_senser_light
+
 
 def _reflect(
     half_line: Tuple[tuple, tuple], segment: Tuple[tuple, tuple]
@@ -116,7 +118,7 @@ class IdealSenser:
         self, self_position: tuple, self_angle: float,
         segments: List[Tuple[tuple, tuple]]
     ) -> ScanData:
-        angles: np.ndarray = np.linspace(-np.pi, np.pi, 100)
+        angles: np.ndarray = np.linspace(-np.pi, np.pi, num_senser_light)
         scan_points: List[tuple] = [
             _receive(
                 half_line=_irradiate(position=self_position, angle=angle),

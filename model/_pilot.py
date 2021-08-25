@@ -27,6 +27,6 @@ class Pilot:
             args:
             return: (velocity, angular_velocity)
         """
-        decision = Decision(t=t, velocity=10, angular_velocity=-0.5)
+        decision = Decision(t=t, velocity=20, angular_velocity=-1.5)
         return decision
         
