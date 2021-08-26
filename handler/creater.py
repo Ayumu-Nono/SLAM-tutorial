@@ -24,6 +24,9 @@ class Creater:
         self, xmin: float, ymin: float,
         xmax: float, ymax: float, width: float
     ) -> bool:
+        assert width > 0
+        assert xmin < xmax
+        assert ymin < ymax
         is_left_wall_success = self.__rectangle_controller.push_with_keys(
             xy=(xmin, ymin), width=width, height=ymax - ymin
         )
@@ -41,4 +44,4 @@ class Creater:
             is_right_wall_success, is_bottom_wall_success
         ])
         return is_success_arr.all(axis=0)
-        
+
