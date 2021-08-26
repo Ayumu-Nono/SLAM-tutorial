@@ -1,9 +1,10 @@
 from typing import List
 from model.status import Status
 from db.repository.status_db import StatusDB
+from .abstract_interactor import AbstractInteractor
 
 
-class StatusInteractor:
+class StatusInteractor(AbstractInteractor):
     def __init__(self) -> None:
         self.__status_db: StatusDB = StatusDB()
 
@@ -12,11 +13,11 @@ class StatusInteractor:
         is_success: bool = self.__status_db.push(status)
         return is_success
         
-    def get_latest_status(self) -> Status:
+    def get_latest(self) -> Status:
         assert self.__status_db.exist()
         return self.__status_db.get(index=-1)
     
-    def get_2latest_status(self) -> List[Status]:
+    def get_2latest(self) -> List[Status]:
         assert self.__status_db.get_len() >= 2
         return [self.__status_db.get(index=-2), self.__status_db.get(index=-2)]
 
