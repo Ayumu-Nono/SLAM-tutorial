@@ -22,4 +22,3 @@ class ScanDB(AbstractDB):
     
     def get_len(self) -> int:
         return len(self.__scan_list)
-        

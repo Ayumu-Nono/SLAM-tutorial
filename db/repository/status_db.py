@@ -15,7 +15,7 @@ class StatusDB(AbstractDB):
         assert isinstance(status, Status)
         old_len: int = len(self.__status_list)
         self.__status_list.append(status)
-        return len(self.__status_list) < old_len
+        return len(self.__status_list) > old_len
 
     def exist(self) -> bool:
         return len(self.__status_list) != 0

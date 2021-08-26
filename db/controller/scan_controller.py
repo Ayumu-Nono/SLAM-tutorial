@@ -20,6 +20,6 @@ class ScanController:
         return is_success
 
     def get_latest_scan_as_arr(self) -> np.ndarray:
-        scan = self.__scan_interactor.get_latest_scan()
+        scan = self.__scan_interactor.get_latest()
         return np.array(scan)
 

@@ -18,10 +18,10 @@ class StatusController:
         return is_success
     
     def get_latest_position_as_arr(self) -> np.ndarray:
-        status: Status = self.__status_interactor.get_latest_status()
+        status: Status = self.__status_interactor.get_latest()
         return np.array(status.position)
 
     def get_latest_angle_as_float(self) -> float:
-        status: Status = self.__status_interactor.get_latest_status()
+        status: Status = self.__status_interactor.get_latest()
         return status.angle
 
