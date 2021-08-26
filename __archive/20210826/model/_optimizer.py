@@ -1,11 +1,13 @@
+import os
 from typing import List
 import copy
 
 import numpy as np
+import pandas as pd
 
 from ._status import Status
 from ._util import resampling
-from ._parameter import seed, n_particle
+from ._parameter import seed, n_particle, log_dir
 
 np.random.seed(seed=seed)
 
@@ -28,7 +30,7 @@ class Optimizer:
         self.particles: List[Status] = [
             Status(
                 position=tuple(
-                    init_status.position + np.random.randn(2) * init_noise_rate
+                    init_status.position + np.random.randn(2) * init_noise_rate / 10
                 ),
                 angle=init_status.angle + np.random.randn() * init_noise_rate
             ) for i in range(n_particle)
@@ -49,14 +51,14 @@ class Optimizer:
         )
         return status
     
-    def _scatter_particles(self, noise_rate=0.01) -> None:
+    def _scatter_particles(self, noise_rate=0.05) -> None:
         for p in self.particles:
             p.change(
                 position=p.position + np.random.randn(2) * noise_rate,
                 angle=p.angle + np.random.randn() * noise_rate
             )
     
-    def optimize(self, score_thre=0.4, max_count=2) -> None:
+    def optimize(self, score_thre=0.4, max_count=10) -> None:
         count: int = 0
         while (self.score < score_thre and count < max_count):
             assert self.score_func is not None, "先にscore_funcをsetしてください"
@@ -64,6 +66,7 @@ class Optimizer:
             scores: np.ndarray = np.array([
                 self.score_func(status=status) for status in self.particles
             ])
+
             weights: np.ndarray = scores / np.sum(scores)
             assert np.abs(np.sum(weights) - 1.0) < 0.001, np.sum(weights)
             # リサンプリング
@@ -74,6 +77,11 @@ class Optimizer:
             scores = np.array([
                 self.score_func(status=status) for status in self.particles
             ])
+            # LOG
+            df = pd.DataFrame(scores, columns=["score"])
+            df.to_csv(os.path.join(log_dir, "score.csv"))
+            raise KeyboardInterrupt
+            
             weights = scores / np.sum(scores)
             assert np.abs(np.sum(weights) - 1.0) < 0.001, np.sum(weights)
             self.score = np.average(scores, weights=weights)

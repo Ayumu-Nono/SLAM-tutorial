@@ -127,8 +127,8 @@ class Estimater:
         """
         now_status: Status = copy.deepcopy(ref_status)
 
-        now_status = self.smoother.smooth(
-            init_status=now_status, now_scan_data=now_scan,
-            ref_status=ref_status, ref_scan_data=ref_scan,
-        )    
+        # now_status = self.smoother.smooth(
+            # init_status=now_status, now_scan_data=now_scan,
+            # ref_status=ref_status, ref_scan_data=ref_scan,
+        # )    
         return now_status
