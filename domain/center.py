@@ -19,7 +19,7 @@ class Center:
 
     def control(self) -> bool:
         is_success = self.__commander.command(
-            velocity=10.0, angular_velocity=0.3
+            velocity=10.0, angular_velocity=5.0
         )
         return is_success
 

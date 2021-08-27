@@ -35,7 +35,7 @@ if __name__ == "__main__":
     robot = Robot(senser, motor)
     world = World(creater)
     pic = Picture(drawer)
-    for t in range(0, 10):
+    for t in range(0, 50):
         if t == 0:
             robot.set()
             world.set_world()

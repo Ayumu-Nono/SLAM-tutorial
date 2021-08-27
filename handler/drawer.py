@@ -55,7 +55,7 @@ class Drawer:
         angle = status_controller.get_latest_angle_as_float()
         x, y = position
         x_nose = x + nose_length * np.cos(angle)
-        y_nose = x + nose_length * np.sin(angle)
+        y_nose = y + nose_length * np.sin(angle)
         self.__ax.plot(
             [x, x_nose], [y, y_nose],
             color=robot_color, alpha=robot_alpha
@@ -70,5 +70,6 @@ class Drawer:
 
     def save_fig(self, path: str) -> bool:
         self.__fig.savefig(path)
+        plt.close()
         return True
 
