@@ -1,7 +1,6 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
-from numpy.lib.arraysetops import isin
 
 from model.rectangle import Rectangle
 from db.interactor.rectangle_interactor import RectangleInteractor
@@ -32,5 +31,29 @@ class RectangleController:
         is_success: bool = self.__rectangle_interactor.push(rectangle)
         return is_success
 
-    def get_all(self) -> List[Rectangle]:
-        return self.__rectangle_interactor.get_all()
+    def get_all_as_keystyle(self) -> List[Tuple[tuple, float, float]]:
+        val = [
+            (rc.xy, rc.width, rc.height)
+            for rc in self.__rectangle_interactor.get_all()
+        ]
+        return val
+
+    def get_all_segments_as_arr(self) -> np.ndarray:
+        """
+            (rectangle数, 4辺, ペア, 座標)の4次元 -> (segment数, ペア, 座標)に変換
+        """
+        val: np.ndarray = np.array([
+            rc.segments for rc in self.__rectangle_interactor.get_all()
+        ])
+        n_edge: int = 4
+        n_pair: int = 2
+        n_coor: int = 2
+        n_rc: int = len(val)
+        assert n_rc > 1
+        new_val = val.reshape((n_rc * n_edge, n_pair, n_coor))
+        assert new_val.size == val.size
+        return new_val
+        
+
+
+

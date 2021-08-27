@@ -17,7 +17,7 @@ class Center:
         self.__motor: Motor = motor
         self.__commander: Commander = commander
 
-    def control(self) -> bool:
+    def make_command(self) -> bool:
         is_success = self.__commander.command()
         return is_success
 

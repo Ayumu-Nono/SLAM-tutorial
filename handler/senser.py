@@ -4,7 +4,7 @@ from db.controller.status_controller import StatusController
 from db.controller.scan_controller import ScanController
 from db.controller.rectangle_controller import RectangleController
 
-from util.senser_util import receive, irradiate
+from .util.senser_util import receive, irradiate
 
 
 class Senser:

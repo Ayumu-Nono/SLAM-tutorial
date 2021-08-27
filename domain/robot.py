@@ -4,6 +4,7 @@ from params.motor_params import (
     position_noise_rate, angle_noise_rate,
     init_position, init_angle, dt
 )
+from params.senser_params import n_laser
 
 
 class Robot:
@@ -32,7 +33,6 @@ class Robot:
         is_success = self.__motor.move(dt)
         return is_success
 
-    def scan(self) -> bool:
-        is_success: bool = self.__senser.scan()
+    def see(self) -> bool:
+        is_success: bool = self.__senser.scan(n_laser)
         return is_success
-        
