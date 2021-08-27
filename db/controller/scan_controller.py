@@ -20,15 +20,15 @@ class ScanController:
         return is_success
 
     def get_latest_as_polar_arr(self) -> np.ndarray:
-        data = self.__scan_interactor.get_latest()
-        return np.array(data)
+        scan = self.__scan_interactor.get_latest()
+        return np.array(scan.data)
 
     def get_latest_as_cartesian_arr(
         self, self_position: np.ndarray, self_angle: float
     ) -> np.ndarray:
-        data = self.__scan_interactor.get_latest()
-        ds: np.ndarray = np.array(data)[:, 0]
-        angles: np.ndarray = np.array(data)[:, 1]
+        scan = self.__scan_interactor.get_latest()
+        ds: np.ndarray = np.array(scan.data)[:, 0]
+        angles: np.ndarray = np.array(scan.data)[:, 1]
         xs: np.ndarray = ds * np.cos(angles + self_angle) + self_position[0]
         ys: np.ndarray = ds * np.sin(angles + self_angle) + self_position[1]
         assert len(xs) == len(ys)

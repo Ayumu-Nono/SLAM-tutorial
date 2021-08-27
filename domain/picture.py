@@ -1,7 +1,7 @@
 from handler.drawer import Drawer
 from params.picture_params import (
     xlim, ylim, figsize, true_nose_length, true_robot_color,
-    true_robot_alpha, true_robot_radius, rectangle_color
+    true_robot_alpha, true_robot_radius, rectangle_color, true_scan_color
 )
 
 
@@ -18,6 +18,7 @@ class Picture:
             robot_color=true_robot_color, robot_alpha=true_robot_alpha,
             robot_radius=true_robot_radius
         )
+        self.__drawer.draw_scan(key="true_scan", scan_color=true_scan_color)
         self.__drawer.save_fig(path)
         return True
         

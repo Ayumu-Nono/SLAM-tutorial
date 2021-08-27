@@ -7,18 +7,22 @@ import matplotlib.pyplot as plt
 
 from db.controller.rectangle_controller import RectangleController
 from db.controller.status_controller import StatusController
+from db.controller.scan_controller import ScanController
 
 
 class Drawer:
     def __init__(
         self,
         rectangle_controller: RectangleController,
-        true_status_controller: StatusController
+        true_status_controller: StatusController,
+        true_scan_controller: ScanController
     ) -> None:
         assert isinstance(rectangle_controller, RectangleController)
         assert isinstance(true_status_controller, StatusController)
+        assert isinstance(true_scan_controller, ScanController)
         self.__rectangle_controller = rectangle_controller
         self.__true_status_controller = true_status_controller
+        self.__true_scan_controller = true_scan_controller
         self.__fig: Figure = None
         self.__ax: Axes = None
 
@@ -34,10 +38,10 @@ class Drawer:
     def draw_rectangles(self, rectangle_color: str) -> bool:
         rs = [
             PatchRectangle(
-                xy=rec.xy, width=rec.width,
-                height=rec.height, fc=rectangle_color
+                xy=rc[0], width=rc[1],
+                height=rc[2], fc=rectangle_color
             )
-            for rec in self.__rectangle_controller.get_all()
+            for rc in self.__rectangle_controller.get_all_as_keystyle()
         ]
         for r in rs:
             self.__ax.add_patch(r)
@@ -67,6 +71,20 @@ class Drawer:
         self.__ax.add_patch(c)
         return True
 
+    def draw_scan(self, key: str, scan_color: str) -> bool:
+        if key == "true_scan":
+            status_controller = self.__true_status_controller
+            scan_controller = self.__true_scan_controller
+        position = status_controller.get_latest_position_as_arr()
+        angle = status_controller.get_latest_angle_as_float()
+        scan_points = scan_controller.get_latest_as_cartesian_arr(
+            self_position=position, self_angle=angle
+        )
+        self.__ax.scatter(
+            scan_points[:, 0], scan_points[:, 1],
+            fc="white", ec=scan_color, zorder=10
+        )
+        return True
 
     def save_fig(self, path: str) -> bool:
         self.__fig.savefig(path)

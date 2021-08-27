@@ -35,9 +35,10 @@ class Senser:
             scan_points - self_position, axis=1
         )
         data: np.ndarray = np.array([
-            np.array([distances[i], self_angle - self_angle])
+            np.array([distances[i], angle - self_angle])
             for i, angle in enumerate(angles)
         ])
+
         is_success: bool = self.__scan_controller.push_with_arr(data)
         return is_success
 
