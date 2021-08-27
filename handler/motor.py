@@ -6,6 +6,7 @@ from db.controller.command_controller import CommandController
 
 
 class Motor:
+    """位置制御するひと"""
     def __init__(
         self,
         status_controller: StatusController,

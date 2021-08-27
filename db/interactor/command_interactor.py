@@ -1,4 +1,3 @@
-from typing import List
 from model.command import Command
 from db.repository.command_db import CommandDB
 from .abstract_interactor import AbstractInteractor

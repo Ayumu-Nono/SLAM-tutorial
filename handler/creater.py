@@ -4,6 +4,7 @@ from db.controller.rectangle_controller import RectangleController
 
 
 class Creater:
+    """世界を創造するマン"""
     def __init__(
         self,
         rectangle_controller: RectangleController

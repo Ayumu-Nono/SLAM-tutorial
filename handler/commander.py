@@ -4,6 +4,7 @@ from db.controller.command_controller import CommandController
 
 
 class Commander:
+    """司令出すひと"""
     def __init__(
         self,
         command_controller: CommandController

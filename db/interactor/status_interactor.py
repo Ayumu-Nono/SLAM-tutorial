@@ -19,7 +19,7 @@ class StatusInteractor(AbstractInteractor):
     
     def get_2latest(self) -> List[Status]:
         assert self.__status_db.get_len() >= 2
-        return [self.__status_db.get(index=-2), self.__status_db.get(index=-2)]
+        return [self.__status_db.get(index=-2), self.__status_db.get(index=-1)]
 
     def get_all(self) -> List[Status]:
         assert self.__status_db.exist()
