@@ -1,7 +1,7 @@
 from typing import List
 from model.decision import Decision
 from db.repository.decision_db import DecisionDB
-from interactor.abstract_interactor import AbstractInteractor
+from .abstract_interactor import AbstractInteractor
 
 
 class DecisionInteractor(AbstractInteractor):
