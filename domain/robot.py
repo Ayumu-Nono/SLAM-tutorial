@@ -7,9 +7,9 @@ class Robot:
         senser: Senser
     ) -> None:
         assert isinstance(senser, Senser)
-        self.senser: Senser = senser
+        self.__senser: Senser = senser
 
     def scan(self) -> bool:
-        is_success: bool = self.senser.scan()
+        is_success: bool = self.__senser.scan()
         return is_success
         

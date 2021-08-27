@@ -14,21 +14,28 @@ class Drawer:
         rectangle_controller: RectangleController
     ) -> None:
         self.__rectangle_controller = rectangle_controller
+        self.__fig: Figure = None
+        self.__ax: Axes = None
 
-    def set_figure(self, figsize: tuple, xlim: tuple, ylim: tuple) -> Tuple[Figure, Axes]:
-        fig: Figure = plt.figure(figsize=figsize)
-        ax: Axes = fig.add_subplot(111)
-        ax.set_aspect("equal")
+    def set_figure(self, figsize: tuple, xlim: tuple, ylim: tuple) -> bool:
+        self.__fig = plt.figure(figsize=figsize)
+        self.__ax = self.__fig.add_subplot(111)
+        self.__ax.set_aspect("equal")
         plt.rcParams["font.size"] = 14
-        ax.set_xlim(xlim)
-        ax.set_ylim(ylim)
-        return fig, ax
+        self.__ax.set_xlim(xlim)
+        self.__ax.set_ylim(ylim)
+        return True
 
-    def draw_rectangles(self, ax: Axes) -> Axes:
+    def draw_rectangles(self) -> bool:
         rs = [
             PatchRectangle(xy=rec.xy, width=rec.width, height=rec.height)
             for rec in self.__rectangle_controller.get_all()
         ]
         for r in rs:
-            ax.add_patch(r)
-        return ax
+            self.__ax.add_patch(r)
+        return True
+
+    def save_fig(self, path: str) -> bool:
+        self.__fig.savefig(path)
+        return True
+
