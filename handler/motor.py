@@ -2,7 +2,7 @@ import numpy as np
 from numpy.random import randn
 
 from db.controller.status_controller import StatusController
-from db.controller.decision_controller import DecisionController
+from db.controller.command_controller import CommandController
 
 
 class Motor:

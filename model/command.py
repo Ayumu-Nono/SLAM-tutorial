@@ -1,4 +1,4 @@
-class Decision:
+class Command:
     def __init__(self, velocity: float, angular_velocity: float) -> None:
         assert isinstance(velocity, float)
         assert isinstance(angular_velocity, float)
