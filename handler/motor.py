@@ -16,6 +16,10 @@ class Motor:
         self.__position_noise_rate: float = 0.0
         self.__angle_noise_rate: float = 0.0
 
+    def set_init_status(self, position: np.ndarray, angle: float) -> bool:
+        is_success = self.__status_controller.push_with_arr(position, angle)
+        return is_success
+
     def set_noise_rate(
         self,
         position_noise_rate: float,
