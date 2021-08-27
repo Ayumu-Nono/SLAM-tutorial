@@ -10,13 +10,13 @@ class Senser:
         status_controller: StatusController,
         scan_controller: ScanController
     ) -> None:
-        self.status_controller: StatusController = status_controller
-        self.scan_controller: ScanController = scan_controller
+        self.__status_controller: StatusController = status_controller
+        self.__scan_controller: ScanController = scan_controller
 
     def scan(self) -> bool:
-        p: np.ndarray = self.status_controller.get_latest_position_as_arr()
+        p: np.ndarray = self.__status_controller.get_latest_position_as_arr()
         s: np.ndarray = np.zeros((100, 2))
-        is_success: bool = self.scan_controller.push_with_arr(data=s)
+        is_success: bool = self.__scan_controller.push_with_arr(data=s)
         return is_success
 
         
