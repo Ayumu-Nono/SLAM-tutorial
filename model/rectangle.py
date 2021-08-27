@@ -4,8 +4,8 @@ from typing import List
 class Rectangle:
     def __init__(self, xy: tuple, width: float, height: float) -> None:
         assert isinstance(xy, tuple)
-        assert isinstance(width, float)
-        assert isinstance(height, float)
+        assert isinstance(width, float), type(width)
+        assert isinstance(height, float), type(height)
         self.__xy: tuple = xy
         self.__width: float = width
         self.__height: float = height
