@@ -12,7 +12,7 @@ class Commander:
 
     def command(self) -> bool:
         is_success = self.__command_controller.push_with_float(
-            10.0, 5.0
+            10.0, 3.0
         )
         return is_success
 

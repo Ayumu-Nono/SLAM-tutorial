@@ -1,3 +1,6 @@
+import os
+import shutil
+
 import numpy as np
 
 from db.controller.status_controller import StatusController
@@ -13,6 +16,8 @@ from domain.world import World
 from domain.picture import Picture
 from domain.robot import Robot
 from domain.center import Center
+
+from log.gif.animator import create_gif
 
 
 if __name__ == "__main__":
@@ -39,9 +44,13 @@ if __name__ == "__main__":
         if t == 0:
             robot.set()
             world.set_world()
-            pic.save_latest_version(path="img/{0:03}.png".format(t))
+            shutil.rmtree("log/img")
+            os.makedirs("log/img", exist_ok=True)
+            pic.save_latest_version(path="log/img/{0:03}.png".format(t))
         else:
             if t % 1 == 0:
                 center.control()
                 robot.move()
-                pic.save_latest_version(path="img/{0:03}.png".format(t))
+                pic.save_latest_version(path="log/img/{0:03}.png".format(t))
+
+    create_gif(inpath=os.path.join("log/img"), out_filename="animation.gif")
