@@ -9,10 +9,10 @@ class Motor:
     def __init__(
         self,
         status_controller: StatusController,
-        decition_controller: DecisionController
+        decition_controller: CommandController
     ) -> None:
         self.__status_controller: StatusController = status_controller
-        self.__decision_controller: DecisionController = decition_controller
+        self.__decision_controller: CommandController = decition_controller
         self.__position_noise_rate: float = 0.0
         self.__angle_noise_rate: float = 0.0
 
