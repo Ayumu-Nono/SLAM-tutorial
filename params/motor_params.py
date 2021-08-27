@@ -9,4 +9,4 @@ dt = 0.01  # [s]
 
 # Initial status
 init_position: np.ndarray = np.array([0.5, 0.5])
-init_angle: np.ndarray = 0.0
+init_angle: float = 0.0
