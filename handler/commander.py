@@ -10,9 +10,9 @@ class Commander:
     ) -> None:
         self.__command_controller: CommandController = command_controller
 
-    def command(self, velocity: float, angular_velocity: float) -> bool:
+    def command(self) -> bool:
         is_success = self.__command_controller.push_with_float(
-            velocity, angular_velocity
+            10.0, 5.0
         )
         return is_success
 
