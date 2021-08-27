@@ -47,3 +47,7 @@ class Rectangle:
     @property
     def p4(self) -> tuple:
         return self.__p4
+
+    @property
+    def segments(self) -> List[tuple]:
+        return self.__segments

@@ -1,0 +1,1 @@
+n_laser: int = 100
