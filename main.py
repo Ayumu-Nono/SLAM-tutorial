@@ -21,11 +21,14 @@ from log.gif.animator import create_gif
 
 
 if __name__ == "__main__":
+    # initialize
     np.random.seed(seed=10)
+    # Controllers
     true_status_controller = StatusController()
     true_scan_controller = ScanController()
     rectangle_controller = RectangleController()
     command_controller = CommandController()
+    # Handlers
     creater = Creater(rectangle_controller)
     drawer = Drawer(
         rectangle_controller,
@@ -33,15 +36,19 @@ if __name__ == "__main__":
         true_scan_controller
     )
     motor = Motor(true_status_controller, command_controller)
-    senser = Senser(true_status_controller, true_scan_controller, rectangle_controller)
+    senser = Senser(
+        true_status_controller, true_scan_controller, rectangle_controller
+    )
     commander = Commander(command_controller)
     # robot.add_motor_noise()
 
-    # Domain
+    # Domains
     center = Center(senser, motor, commander)
     robot = Robot(senser, motor)
     world = World(creater)
     pic = Picture(drawer)
+
+    # main flow
     for t in range(0, 50):
         if t == 0:
             robot.set()
@@ -57,4 +64,5 @@ if __name__ == "__main__":
                 pic.save_latest_version(path="log/img/{0:03}.png".format(t))
                 robot.move()
 
+    # closing
     create_gif(inpath=os.path.join("log/img"), out_filename="animation.gif")

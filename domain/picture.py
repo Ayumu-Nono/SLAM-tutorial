@@ -14,11 +14,13 @@ class Picture:
         self.__drawer.set_figure(figsize=figsize, xlim=xlim, ylim=ylim)
         self.__drawer.draw_rectangles(rectangle_color=rectangle_color)
         self.__drawer.draw_status(
-            key="true_status", nose_length=true_nose_length,
+            species="true_status", nose_length=true_nose_length,
             robot_color=true_robot_color, robot_alpha=true_robot_alpha,
             robot_radius=true_robot_radius
         )
-        self.__drawer.draw_scan(key="true_scan", scan_color=true_scan_color)
+        self.__drawer.draw_scan(
+            species="true_scan", scan_color=true_scan_color
+        )
         self.__drawer.save_fig(path)
         return True
         

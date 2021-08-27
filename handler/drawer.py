@@ -48,13 +48,13 @@ class Drawer:
         return True
 
     def draw_status(
-        self, key: str, nose_length: float, robot_color: str,
+        self, species: str, nose_length: float, robot_color: str,
         robot_alpha: float, robot_radius: float
     ) -> bool:
-        if key == "true_status":
+        if species == "true_status":
             status_controller = self.__true_status_controller
         else:
-            raise KeyError("Unknown key value", key)
+            raise KeyError("Unknown key value", species)
         position = status_controller.get_latest_position_as_arr()
         angle = status_controller.get_latest_angle_as_float()
         x, y = position
@@ -71,8 +71,8 @@ class Drawer:
         self.__ax.add_patch(c)
         return True
 
-    def draw_scan(self, key: str, scan_color: str) -> bool:
-        if key == "true_scan":
+    def draw_scan(self, species: str, scan_color: str) -> bool:
+        if species == "true_scan":
             status_controller = self.__true_status_controller
             scan_controller = self.__true_scan_controller
         position = status_controller.get_latest_position_as_arr()
