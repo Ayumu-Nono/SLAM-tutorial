@@ -86,6 +86,13 @@ class Drawer:
         )
         return True
 
+    def draw_orbit(self, species: str, orbit_color: str) -> bool:
+        if species == "true_orbit":
+            status_controller = self.__true_status_controller
+        positions = status_controller.get_all_position_as_arr()
+        self.__ax.plot(positions[:, 0], positions[:, 1], color=orbit_color)
+        return True
+
     def save_fig(self, path: str) -> bool:
         self.__fig.savefig(path)
         plt.close()

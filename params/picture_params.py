@@ -13,3 +13,6 @@ rectangle_color = "gray"
 
 # Scan
 true_scan_color: str = "black"
+
+# True orbit
+true_orbit_color: str = "black"

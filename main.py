@@ -65,4 +65,4 @@ if __name__ == "__main__":
                 robot.move()
 
     # closing
-    create_gif(inpath=os.path.join("log/img"), out_filename="animation.gif")
+    create_gif(inpath=os.path.join("log/img"), outpath="log/gif/ animation.gif")

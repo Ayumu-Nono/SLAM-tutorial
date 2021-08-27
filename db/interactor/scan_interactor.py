@@ -20,3 +20,6 @@ class ScanInteractor(AbstractInteractor):
     def get_2latest(self) -> List[Scan]:
         assert self.__scan_db.get_len() >= 2
         return [self.__scan_db.get(index=-2), self.__scan_db.get(index=-1)]
+
+    def get_all(self):
+        raise FutureWarning("Don't use this function")

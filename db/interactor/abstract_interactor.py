@@ -9,3 +9,7 @@ class AbstractInteractor(metaclass=ABCMeta):
     @abstractmethod
     def get_latest(self):
         pass
+
+    @abstractmethod
+    def get_all(self):
+        pass

@@ -16,3 +16,6 @@ class CommandInteractor(AbstractInteractor):
     def get_latest(self) -> Command:
         assert self.__decision_db.exist()
         return self.__decision_db.get(index=-1)
+
+    def get_all(self) -> None:
+        raise FutureWarning("Don't use this function.")

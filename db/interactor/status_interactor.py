@@ -21,3 +21,8 @@ class StatusInteractor(AbstractInteractor):
         assert self.__status_db.get_len() >= 2
         return [self.__status_db.get(index=-2), self.__status_db.get(index=-2)]
 
+    def get_all(self) -> List[Status]:
+        assert self.__status_db.exist()
+        return [
+            self.__status_db.get(i) for i in range(self.__status_db.get_len())
+        ]
