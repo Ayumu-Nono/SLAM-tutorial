@@ -9,7 +9,7 @@ class ScanController:
     def __init__(self) -> None:
         self.__scan_interactor: ScanInteractor = ScanInteractor()
 
-    def push_with_arr(self, data: np.ndarray) -> bool:
+    def push_with_arr(self, data: np.ndarray) -> int:
         assert isinstance(data, np.ndarray)
         data_as_list: List[tuple] = [
             (row[0], row[1]) for row in data
@@ -17,7 +17,8 @@ class ScanController:
         is_success: bool = self.__scan_interactor.push(
             scan=Scan(data=data_as_list)
         )
-        return is_success
+        assert is_success
+        return self.__scan_interactor.get_len()
 
     def get_latest_as_polar_arr(self) -> np.ndarray:
         scan = self.__scan_interactor.get_latest()

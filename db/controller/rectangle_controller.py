@@ -10,7 +10,7 @@ class RectangleController:
     def __init__(self) -> None:
         self.__rectangle_interactor: RectangleInteractor = RectangleInteractor()
 
-    def push_with_arr(self, ps: np.ndarray) -> bool:
+    def push_with_arr(self, ps: np.ndarray) -> int:
         assert isinstance(ps, np.ndarray)
         assert ps.shape == (4, 2)
         xmin = np.min(ps[:, 0])
@@ -24,12 +24,14 @@ class RectangleController:
         dy = float(ymax - ymin)
         rectangle = Rectangle(xy=(x0, y0), width=dx, height=dy)
         is_success: bool = self.__rectangle_interactor.push(rectangle)
-        return is_success
-    
-    def push_with_keys(self, xy: tuple, width: float, height: float) -> bool:
+        assert is_success
+        return self.__rectangle_interactor.get_len()
+
+    def push_with_keys(self, xy: tuple, width: float, height: float) -> int:
         rectangle: Rectangle = Rectangle(xy, width, height)
         is_success: bool = self.__rectangle_interactor.push(rectangle)
-        return is_success
+        assert is_success
+        return self.__rectangle_interactor.get_len()
 
     def get_all_as_keystyle(self) -> List[Tuple[tuple, float, float]]:
         val = [

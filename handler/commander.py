@@ -9,15 +9,15 @@ class Commander:
     ) -> None:
         self.__command_controller: CommandController = command_controller
     
-    def set_initial_command(self, velocity: float, angular_velocity: float) -> bool:
+    def set_initial_command(self, velocity: float, angular_velocity: float) -> int:
         assert self.__command_controller.get_latest_tstep_as_int() == 0
-        is_success = self.__command_controller.push_with_float(
+        t: int = self.__command_controller.push_with_float(
             velocity, angular_velocity
         )
-        return is_success
+        return t
 
     def command(self) -> bool:
-        is_success = self.__command_controller.push_with_float(
+        t: int = self.__command_controller.push_with_float(
             10.0, 3.0
         )
-        return is_success
+        return t 

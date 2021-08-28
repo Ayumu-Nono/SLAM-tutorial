@@ -8,14 +8,15 @@ class StatusController:
     def __init__(self) -> None:
         self.__status_interactor: StatusInteractor = StatusInteractor()
 
-    def push_with_arr(self, position: np.ndarray, angle: float) -> bool:
+    def push_with_arr(self, position: np.ndarray, angle: float) -> int:
         assert isinstance(position, np.ndarray)
         assert isinstance(angle, float)
         status: Status = Status(
             position=(position[0], position[1]), angle=angle
         )
         is_success: bool = self.__status_interactor.push(status=status)
-        return is_success
+        assert is_success
+        return self.__status_interactor.get_len()
     
     def get_latest_position_as_arr(self) -> np.ndarray:
         status: Status = self.__status_interactor.get_latest()

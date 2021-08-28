@@ -8,14 +8,15 @@ class CommandController:
 
     def push_with_float(
         self, velocity: float, angular_velocity: float
-    ) -> bool:
+    ) -> int:
         assert isinstance(velocity, float)
         assert isinstance(angular_velocity, float)
         command: Command = Command(
             velocity=velocity, angular_velocity=angular_velocity
         )
         is_success: bool = self.__command_interactor.push(command=command)
-        return is_success
+        assert is_success
+        return self.__command_interactor.get_len()
 
     def get_latest_velocity_as_float(self) -> float:
         command: Command = self.__command_interactor.get_latest()

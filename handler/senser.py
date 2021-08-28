@@ -18,7 +18,7 @@ class Senser:
         self.__scan_controller: ScanController = scan_controller
         self.__rectangle_controller: RectangleController = rectangle_controller
 
-    def scan(self, n_laser: int) -> bool:
+    def scan(self, n_laser: int) -> int:
         self_position = self.__status_controller.get_latest_position_as_arr()
         self_angle = self.__status_controller.get_latest_angle_as_float()
         segments = self.__rectangle_controller.get_all_segments_as_arr()
@@ -39,5 +39,5 @@ class Senser:
             for i, angle in enumerate(angles)
         ])
 
-        is_success: bool = self.__scan_controller.push_with_arr(data)
-        return is_success
+        t: int = self.__scan_controller.push_with_arr(data)
+        return t 

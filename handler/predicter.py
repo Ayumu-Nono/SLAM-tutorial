@@ -15,12 +15,12 @@ class Predicter:
         self.__smtd_status_controller: StatusController = smtd_status_controller
         self.__command_controller: CommandController = command_controller
 
-    def set_initial_status(self, position: np.ndarray, angle: float) -> bool:
+    def set_initial_status(self, position: np.ndarray, angle: float) -> int:
         assert self.__pred_status_controller.get_latest_tstep_as_int() == 0
-        is_success = self.__pred_status_controller.push_with_arr(position, angle)
-        return is_success
+        t: int = self.__pred_status_controller.push_with_arr(position, angle)
+        return t 
 
-    def predict(self, dt: float) -> bool:
+    def predict(self, dt: float) -> int:
         old_positon = self.__smtd_status_controller.get_latest_position_as_arr()
         old_angle = self.__smtd_status_controller.get_latest_angle_as_float()
         now_velocity = self.__command_controller.get_latest_velocity_as_float()
@@ -30,8 +30,8 @@ class Predicter:
         d_theta = now_angular_v * dt
         now_position = old_positon + np.array([dx, dy])
         now_angle = old_angle + d_theta
-        is_success = self.__pred_status_controller.push_with_arr(now_position, now_angle)
-        return is_success
+        t: int = self.__pred_status_controller.push_with_arr(now_position, now_angle)
+        return t 
 
         
 

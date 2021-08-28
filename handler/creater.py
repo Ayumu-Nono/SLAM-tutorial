@@ -11,37 +11,33 @@ class Creater:
     ) -> None:
         self.__rectangle_controller: RectangleController = rectangle_controller
 
-    def create_obstacles(self, obstacles: np.ndarray) -> bool:
+    def create_obstacles(self, obstacles: np.ndarray) -> int:
         """(rectangle数, 点の数, 座標)の3次元"""
         assert obstacles.ndim == 3
-        is_success_arr: np.ndarray = np.array([
+        nums: np.ndarray = np.array([
             self.__rectangle_controller.push_with_arr(ps)
             for ps in obstacles
-        ]).astype(dtype=np.bool8)
-        return is_success_arr.all(axis=0)
+        ]).astype(dtype=np.int32)
+        return int(np.max(nums))
 
     def create_wall(
         self, xmin: float, ymin: float,
         xmax: float, ymax: float, width: float
-    ) -> bool:
+    ) -> int:
         assert width > 0
         assert xmin < xmax
         assert ymin < ymax
-        is_left_wall_success = self.__rectangle_controller.push_with_keys(
+        num = self.__rectangle_controller.push_with_keys(
             xy=(xmin - width, ymin), width=width, height=ymax - ymin
         )
-        is_upper_wall_success = self.__rectangle_controller.push_with_keys(
+        num = self.__rectangle_controller.push_with_keys(
             xy=(xmin, ymax), width=xmax - xmin, height=width
         )
-        is_right_wall_success = self.__rectangle_controller.push_with_keys(
+        num = self.__rectangle_controller.push_with_keys(
             xy=(xmax, ymin), width=width, height=ymax - ymin
         )
-        is_bottom_wall_success = self.__rectangle_controller.push_with_keys(
+        num = self.__rectangle_controller.push_with_keys(
             xy=(xmin, ymin - width), width=xmax - xmin, height=width
         )
-        is_success_arr = np.array([
-            is_left_wall_success, is_upper_wall_success,
-            is_right_wall_success, is_bottom_wall_success
-        ])
-        return is_success_arr.all(axis=0)
+        return num
 

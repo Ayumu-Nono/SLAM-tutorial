@@ -17,10 +17,10 @@ class Motor:
         self.__position_noise_rate: float = 0.0
         self.__angle_noise_rate: float = 0.0
 
-    def set_initial_status(self, position: np.ndarray, angle: float) -> bool:
+    def set_initial_status(self, position: np.ndarray, angle: float) -> int:
         assert self.__status_controller.get_latest_tstep_as_int() == 0
-        is_success = self.__status_controller.push_with_arr(position, angle)
-        return is_success
+        t: int = self.__status_controller.push_with_arr(position, angle)
+        return t
 
     def set_noise_rate(
         self,
@@ -31,7 +31,7 @@ class Motor:
         self.__angle_noise_rate = angle_noise_rate
         return True
         
-    def move(self, dt: float) -> bool:
+    def move(self, dt: float) -> int:
         old_position = self.__status_controller.get_latest_position_as_arr()
         old_angle = self.__status_controller.get_latest_angle_as_float()
         velocity = self.__command_controller.get_latest_velocity_as_float()
@@ -46,8 +46,8 @@ class Motor:
         # noise
         new_position += randn() * self.__position_noise_rate * d_position
         new_angle += randn() * self.__angle_noise_rate * d_angle
-        is_success: bool = self.__status_controller.push_with_arr(
+        t: int = self.__status_controller.push_with_arr(
             position=new_position, angle=new_angle
         )
-        return is_success
+        return t 
 

@@ -18,9 +18,7 @@ class Smoother:
         self.__smtd_status_controller: StatusController = smtd_status_controller
         self.__scan_statas_controller: ScanController = scan_controller
 
-    def set_initial_status(self, position: np.ndarray, angle: float) -> bool:
+    def set_initial_status(self, position: np.ndarray, angle: float) -> int:
         assert self.__smtd_status_controller.get_latest_tstep_as_int() == 0
-        is_success = self.__smtd_status_controller.push_with_arr(position, angle)
-        return is_success
-
-    
+        t: int = self.__smtd_status_controller.push_with_arr(position, angle)
+        return t
