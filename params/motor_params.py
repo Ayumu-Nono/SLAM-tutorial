@@ -1,11 +1,12 @@
 import numpy as np
 
+from .hyper_params import dt
+
 # Noise
 position_noise_rate = 0.3
-angle_noise_rate = 0.1
+angle_noise_rate = 0.8
 
-# Time step
-dt = 0.01  # [s]
+dt = dt
 
 # Initial status
 init_position: np.ndarray = np.array([0.5, 0.5])
