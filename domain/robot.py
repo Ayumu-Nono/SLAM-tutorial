@@ -17,18 +17,6 @@ class Robot:
         self.__senser: Senser = senser
         self.__motor: Motor = motor
 
-    def set(self) -> bool:
-        is_success: bool = self.__motor.set_init_status(
-            position=init_position, angle=init_angle
-        )
-        return is_success
-
-    def add_motor_noise(self) -> bool:
-        is_success: bool = self.__motor.set_noise_rate(
-            position_noise_rate, angle_noise_rate
-        )
-        return is_success
-
     def move(self) -> bool:
         is_success = self.__motor.move(dt)
         return is_success
@@ -36,3 +24,4 @@ class Robot:
     def see(self) -> bool:
         is_success: bool = self.__senser.scan(n_laser)
         return is_success
+

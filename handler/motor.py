@@ -10,14 +10,15 @@ class Motor:
     def __init__(
         self,
         status_controller: StatusController,
-        decition_controller: CommandController
+        command_controller: CommandController
     ) -> None:
         self.__status_controller: StatusController = status_controller
-        self.__decision_controller: CommandController = decition_controller
+        self.__command_controller: CommandController = command_controller
         self.__position_noise_rate: float = 0.0
         self.__angle_noise_rate: float = 0.0
 
-    def set_init_status(self, position: np.ndarray, angle: float) -> bool:
+    def set_initial_status(self, position: np.ndarray, angle: float) -> bool:
+        assert self.__status_controller.get_latest_tstep_as_int() == 0
         is_success = self.__status_controller.push_with_arr(position, angle)
         return is_success
 
@@ -33,9 +34,9 @@ class Motor:
     def move(self, dt: float) -> bool:
         old_position = self.__status_controller.get_latest_position_as_arr()
         old_angle = self.__status_controller.get_latest_angle_as_float()
-        velocity = self.__decision_controller.get_latest_velocity_as_float()
+        velocity = self.__command_controller.get_latest_velocity_as_float()
         angular_velocity \
-            = self.__decision_controller.get_latest_angular_velocity_as_float()
+            = self.__command_controller.get_latest_angular_velocity_as_float()
         dx = velocity * np.cos(old_angle) * dt
         dy = velocity * np.sin(old_angle) * dt
         d_position = np.array([dx, dy])
