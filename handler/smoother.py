@@ -22,3 +22,9 @@ class Smoother:
         assert self.__smtd_status_controller.get_latest_tstep_as_int() == 0
         t: int = self.__smtd_status_controller.push_with_arr(position, angle)
         return t
+
+    def smooth(self) -> int:
+        old_position: np.ndarray = self.__pred_status_controller.get_latest_position_as_arr()
+        old_angle: float = self.__pred_status_controller.get_latest_angle_as_float()
+        t: int = self.__smtd_status_controller.push_with_arr(old_position, old_angle)
+        return t

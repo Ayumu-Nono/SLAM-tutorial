@@ -31,3 +31,8 @@ class Center:
     def estimate_wo_scan(self) -> int:
         t: int = self.__predicter.predict(dt)
         return t
+        
+    def estimate_w_scan(self) -> int:
+        t: int = self.__smoother.smooth()
+        return t
+
