@@ -16,10 +16,12 @@ class Rectangle:
         self.__p3: tuple = (x0 + width, y0 + height)
         self.__p4: tuple = (x0, y0 + height)
         self.__segments: List[tuple] = [
-            (self.__p1, self.__p2), (self.__p2, self.__p3),
-            (self.__p3, self.__p4), (self.__p4, self.__p1)
+            (self.__p1, self.__p2),
+            (self.__p2, self.__p3),
+            (self.__p3, self.__p4),
+            (self.__p4, self.__p1),
         ]
-    
+
     @property
     def xy(self) -> tuple:
         return self.__xy
@@ -35,11 +37,11 @@ class Rectangle:
     @property
     def p1(self) -> tuple:
         return self.__p1
-    
+
     @property
     def p2(self) -> tuple:
         return self.__p2
-    
+
     @property
     def p3(self) -> tuple:
         return self.__p3

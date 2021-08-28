@@ -1,5 +1,3 @@
-import numpy as np
-
 from db.controller.command_controller import CommandController
 
 
@@ -16,5 +14,3 @@ class Commander:
             10.0, 3.0
         )
         return is_success
-
-        

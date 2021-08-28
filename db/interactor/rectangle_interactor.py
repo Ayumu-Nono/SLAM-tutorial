@@ -1,6 +1,6 @@
 from typing import List
 from model.rectangle import Rectangle
-from db.repository.rectangle_db import Rectangle, RectangleDB
+from db.repository.rectangle_db import RectangleDB
 from .abstract_interactor import AbstractInteractor
 
 

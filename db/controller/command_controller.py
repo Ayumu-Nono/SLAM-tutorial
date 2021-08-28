@@ -1,5 +1,3 @@
-import numpy as np
-
 from model.command import Command
 from db.interactor.command_interactor import CommandInteractor
 
