@@ -17,11 +17,11 @@ class Robot:
         self.__senser: Senser = senser
         self.__motor: Motor = motor
 
-    def move(self) -> bool:
-        is_success = self.__motor.move(dt)
-        return is_success
+    def move(self) -> int:
+        t: int = self.__motor.move(dt)
+        return t 
 
-    def see(self) -> bool:
-        is_success: bool = self.__senser.scan(n_laser)
-        return is_success
+    def see(self) -> int:
+        t: int = self.__senser.scan(n_laser)
+        return t 
 

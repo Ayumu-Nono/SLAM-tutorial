@@ -24,10 +24,10 @@ class Center:
         self.__predicter: Predicter = predicter
         self.__smoother: Smoother = smoother
 
-    def make_command(self) -> bool:
-        is_success = self.__commander.command()
-        return is_success
+    def make_command(self) -> int:
+        t: int = self.__commander.command()
+        return t
 
-    def estimate_wo_scan(self) -> bool:
-        is_success = self.__predicter.predict(dt)
-        return is_success
+    def estimate_wo_scan(self) -> int:
+        t: int = self.__predicter.predict(dt)
+        return t
