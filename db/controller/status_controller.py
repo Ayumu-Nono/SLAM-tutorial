@@ -31,4 +31,3 @@ class StatusController:
 
     def get_latest_tstep_as_int(self) -> int:
         return self.__status_interactor.get_len()
-

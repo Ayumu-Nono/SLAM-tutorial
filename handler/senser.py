@@ -41,5 +41,3 @@ class Senser:
 
         is_success: bool = self.__scan_controller.push_with_arr(data)
         return is_success
-
-        
