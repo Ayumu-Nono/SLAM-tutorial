@@ -29,3 +29,6 @@ class StatusController:
         status_list = self.__status_interactor.get_all()
         return np.array([status.position for status in status_list])
 
+    def get_latest_tstep_as_int(self) -> int:
+        return self.__status_interactor.get_len()
+

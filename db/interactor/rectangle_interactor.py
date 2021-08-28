@@ -25,3 +25,6 @@ class RectangleInteractor(AbstractInteractor):
             for i in range(length)
         ]
         return all_rectangle
+
+    def get_len(self) -> int:
+        return self.__rectangle_db.get_len()
