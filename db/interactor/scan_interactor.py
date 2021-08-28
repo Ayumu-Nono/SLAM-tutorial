@@ -23,3 +23,6 @@ class ScanInteractor(AbstractInteractor):
 
     def get_all(self):
         raise FutureWarning("Don't use this function")
+
+    def get_len(self) -> int:
+        return self.__scan_db.get_len()

@@ -13,3 +13,7 @@ class AbstractInteractor(metaclass=ABCMeta):
     @abstractmethod
     def get_all(self):
         pass
+
+    @abstractmethod
+    def get_len(self):
+        pass

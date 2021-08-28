@@ -26,3 +26,6 @@ class StatusInteractor(AbstractInteractor):
         return [
             self.__status_db.get(i) for i in range(self.__status_db.get_len())
         ]
+
+    def get_len(self) -> int:
+        return self.__status_db.get_len()
