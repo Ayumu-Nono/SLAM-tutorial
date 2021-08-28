@@ -1,24 +1,22 @@
 import os
 import shutil
 
+from tqdm import tqdm
+
 from sequence_manager.initializer import init
+from sequence_manager.iterater import each_step
+
 from log.gif.animator import create_gif
 
 
 if __name__ == "__main__":
-    for t in range(0, 50):
-        if t == 0:
-            center, robot, world, picture = init()
-            shutil.rmtree("log/img")
-            os.makedirs("log/img", exist_ok=True)
-            picture.save_latest_version(path="log/img/{0:03}.png".format(t))
-        else:
-            if t % 1 == 0:
-                center.estimate_wo_scan()
-                robot.see()
-                center.make_command()
-                picture.save_latest_version(path="log/img/{0:03}.png".format(t))
-                robot.move()
+    center, robot, world, picture = init()
+    shutil.rmtree("log/img")
+    os.makedirs("log/img", exist_ok=True)
+    
+    for t in tqdm(range(1, 50)):
+        if t % 1 == 0:
+            each_step(t, center, robot, world, picture)
 
     # closing
-    create_gif(inpath=os.path.join("log/img"), outpath="log/gif/ animation.gif")
+    create_gif(inpath=os.path.join("log/img"), outpath="log/gif/animation.gif")

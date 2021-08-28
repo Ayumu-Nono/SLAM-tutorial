@@ -1,5 +1,3 @@
-import os
-import shutil
 from typing import Tuple
 
 import numpy as np
@@ -66,10 +64,15 @@ def init() -> Tuple[Center, Robot, World, Picture]:
 
     # init
     world.set_world()
-    motor.set_initial_status(init_position, init_angle)
     motor.set_noise_rate(position_noise_rate, angle_noise_rate)
-    senser.scan(n_laser)
-    commander.set_initial_command(init_velocity, init_angular_velocity)
-    predicter.set_initial_status(init_position, init_angle)
-    smoother.set_initial_status(init_position, init_angle)
+    _t1 = motor.set_initial_status(init_position, init_angle)
+    _t2 = predicter.set_initial_status(init_position, init_angle)
+    _t3 = senser.scan(n_laser)
+    _t4 = smoother.set_initial_status(init_position, init_angle)
+    _t5 = commander.set_initial_command(init_velocity, init_angular_velocity)
+    _ts = np.array([_t1, _t2, _t3, _t4, _t5])
+    assert np.all(_ts == np.ones(len(_ts))), _ts
+
+    picture.save_latest_version(path="log/img/{0:03}.png".format(0))
+    
     return center, robot, world, picture
