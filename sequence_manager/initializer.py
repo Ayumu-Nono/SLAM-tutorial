@@ -26,7 +26,7 @@ from params.senser_params import n_laser
 
 
 def init() -> Tuple[Center, Robot, World, Picture]:
-    np.random.seed(seed=10)
+    np.random.seed(seed=11)
     # Controllers
     true_status_controller = StatusController()
     pred_status_controller = StatusController()

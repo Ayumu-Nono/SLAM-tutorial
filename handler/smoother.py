@@ -58,7 +58,7 @@ class Smoother:
         )
         smtd_score = 0.0
         count = 0
-        while (smtd_score < thre_score and count <= max_iterate):
+        while (smtd_score < thre_score and count < max_iterate):
             assert len(positions) == len(angles)
             scores = np.array([
                 calc_score(
