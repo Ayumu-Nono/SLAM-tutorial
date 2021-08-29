@@ -26,6 +26,14 @@ class StatusController:
         status: Status = self.__status_interactor.get_latest()
         return status.angle
 
+    def get_2ndlatest_position_as_arr(self) -> np.ndarray:
+        status: Status = self.__status_interactor.get_2ndlatest()
+        return np.array(status.position)
+
+    def get_2ndlatest_angle_as_float(self) -> float:
+        status: Status = self.__status_interactor.get_2ndlatest()
+        return status.angle
+
     def get_all_position_as_arr(self) -> np.ndarray:
         status_list = self.__status_interactor.get_all()
         return np.array([status.position for status in status_list])

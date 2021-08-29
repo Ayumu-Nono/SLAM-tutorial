@@ -4,6 +4,7 @@ from handler.commander import Commander
 from handler.predicter import Predicter
 from handler.smoother import Smoother
 from params.hyper_params import dt
+from params.smoother_patams import mesh_digit, mesh_xs, mesh_ys
 
 
 class Center:
@@ -33,6 +34,8 @@ class Center:
         return t
         
     def estimate_w_scan(self) -> int:
-        t: int = self.__smoother.smooth()
+        t: int = self.__smoother.smooth(
+            mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys
+        )
         return t
 
