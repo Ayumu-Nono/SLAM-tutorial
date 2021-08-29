@@ -7,7 +7,7 @@ from db.controller.scan_controller import ScanController
 
 from .util.smoother_util import (
     calc_score, make_particles, calc_weights,
-    get_resample_indexes
+    get_resample_indexes, scatter_particles
 )
 
 
@@ -51,7 +51,7 @@ class Smoother:
         )
         # Optimize
         positions, angles = make_particles(
-            init_postision=pred_position, init_angle=pred_angle,
+            init_position=pred_position, init_angle=pred_angle,
             n_particles=n_particle,
             position_scatter_rate=position_scatter_rate,
             angle_scatter_rate=angle_scatter_rate
@@ -87,6 +87,12 @@ class Smoother:
             )
             positions = deepcopy(positions[k])
             angles = deepcopy(angles[k])
+            positions, angles = scatter_particles(
+                positions=positions, angles=angles,
+                n_particles=n_particle,
+                position_scatter_rate=position_scatter_rate,
+                angle_scatter_rate=angle_scatter_rate
+            )
             print(smtd_score)
             count += 1
 

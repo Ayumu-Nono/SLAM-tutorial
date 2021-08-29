@@ -130,7 +130,7 @@ class Drawer:
         elif species == "smtd_orbit":
             status_controller = self.__smtd_status_controller
         elif species == "pred_orbit":
-            status_controller = self.__smtd_status_controller
+            status_controller = self.__pred_status_controller
         else:
             raise KeyError("Unknown species", species)
         positions = status_controller.get_all_position_as_arr()
@@ -139,6 +139,10 @@ class Drawer:
 
     def add_legend(self) -> bool:
         self.__ax.legend()
+        return True
+
+    def add_title(self, n_particle: int) -> bool:
+        self.__ax.set_title("n_particle={0}".format(n_particle))
         return True
 
     def save_fig(self, path: str) -> bool:

@@ -92,12 +92,12 @@ def calc_score(
 # Particle Manager
 
 def make_particles(
-    init_postision: np.ndarray, init_angle: float, n_particles: int,
+    init_position: np.ndarray, init_angle: float, n_particles: int,
     position_scatter_rate: float, angle_scatter_rate: float
 ) -> Tuple[np.ndarray, np.ndarray]:
-    assert init_postision.shape[0] == 2
+    assert init_position.shape[0] == 2
     p_positions: np.ndarray = np.array([
-        init_postision + randn(2) * position_scatter_rate
+        init_position + randn(2) * position_scatter_rate
         for i in range(n_particles)
     ])
     p_angles: np.ndarray = np.array([
@@ -105,6 +105,15 @@ def make_particles(
         for i in range(n_particles)
     ])
     return p_positions, p_angles
+
+
+def scatter_particles(
+    positions: np.ndarray, angles: np.ndarray, n_particles: int,
+    position_scatter_rate: float, angle_scatter_rate: float
+) -> Tuple[np.ndarray, np.ndarray]:
+    positions + randn(positions.shape[0], positions.shape[1]) * position_scatter_rate
+    angles + randn(angles.shape[0]) * angle_scatter_rate
+    return positions, angles
 
 
 def calc_weights(scores: np.ndarray) -> np.ndarray:

@@ -1,4 +1,4 @@
-from params.hyper_params import mesh_digit, mesh_xs, mesh_ys
+from params.hyper_params import mesh_digit, mesh_xs, mesh_ys, n_particle
 
 
 xlim: tuple = (-0.1, 10.1)
@@ -54,3 +54,5 @@ smtd_orbit_color: str = "red"
 # Mesh
 mesh_digit, mesh_xs, mesh_ys = mesh_digit, mesh_xs, mesh_ys
 
+# Particle
+n_particle = n_particle

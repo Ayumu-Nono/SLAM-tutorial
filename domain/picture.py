@@ -8,7 +8,7 @@ from params.picture_params import (
     pred_robot_radius, pred_scan_cmap, pred_scan_color, pred_scan_vrange,
     mesh_digit, mesh_xs, mesh_ys,
     true_scan_cmap, true_scan_vrange, smtd_scan_cmap, smtd_scan_vrange,
-    scan_mesh_alpha, scan_mesh_zorder
+    scan_mesh_alpha, scan_mesh_zorder, n_particle
 )
 
 
@@ -65,5 +65,6 @@ class Picture:
             species="smtd_orbit", orbit_color=smtd_orbit_color
         )
         self.__drawer.add_legend()
+        self.__drawer.add_title(n_particle=n_particle)
         self.__drawer.save_fig(path)
         return True
