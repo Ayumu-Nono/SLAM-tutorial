@@ -22,6 +22,8 @@ smtd_robot_radius: float = 0.2
 rectangle_color = "gray"
 
 # Scan
+scan_mesh_alpha: float = 0.3
+scan_mesh_zorder: int = 10
 true_scan_color: str = "black"
 true_scan_cmap: str = "binary"
 true_scan_vrange: tuple = (0.0, 1.0)

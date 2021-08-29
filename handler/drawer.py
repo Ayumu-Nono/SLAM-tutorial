@@ -97,7 +97,7 @@ class Drawer:
     def draw_scan_mesh(
         self, species: str, scan_color: str,
         mesh_digit: int, mesh_xs: np.ndarray, mesh_ys: np.ndarray,
-        cmap: str, vmin: float, vmax: float
+        cmap: str, vmin: float, vmax: float, zorder: int, alpha: float
     ) -> bool:
         if species == "true_scan":
             status_controller = self.__true_status_controller
@@ -113,7 +113,7 @@ class Drawer:
         X, Y = np.meshgrid(mesh_xs, mesh_ys)
         self.__ax.pcolormesh(
             X, Y, scan_mesh.T, shading="auto", norm=Normalize(vmin, vmax),
-            cmap=cmap
+            cmap=cmap, zorder=zorder, alpha=alpha
         )
         return True
 

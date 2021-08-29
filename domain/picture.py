@@ -5,7 +5,8 @@ from params.picture_params import (
     true_orbit_color, smtd_nose_length, smtd_robot_alpha, smtd_orbit_color,
     smtd_robot_radius, smtd_robot_color, smtd_scan_color,
     mesh_digit, mesh_xs, mesh_ys,
-    true_scan_cmap, true_scan_vrange, smtd_scan_cmap, smtd_scan_vrange
+    true_scan_cmap, true_scan_vrange, smtd_scan_cmap, smtd_scan_vrange,
+    scan_mesh_alpha, scan_mesh_zorder
 )
 
 
@@ -37,14 +38,16 @@ class Picture:
             species="true_scan", scan_color=true_scan_color,
             mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys,
             cmap=true_scan_cmap,
-            vmin=true_scan_vrange[0], vmax=true_scan_vrange[1]
+            vmin=true_scan_vrange[0], vmax=true_scan_vrange[1],
+            zorder=scan_mesh_zorder, alpha=scan_mesh_alpha
         )
-        # self.__drawer.draw_scan_mesh(
-        #     species="smtd_scan", scan_color=smtd_scan_color,
-        #     mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys,
-        #     cmap=true_scan_cmap,
-        #     vmin=true_scan_vrange[0], vmax=true_scan_vrange[1]
-        # )
+        self.__drawer.draw_scan_mesh(
+            species="smtd_scan", scan_color=smtd_scan_color,
+            mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys,
+            cmap=smtd_scan_cmap,
+            vmin=smtd_scan_vrange[0], vmax=smtd_scan_vrange[1],
+            zorder=scan_mesh_zorder, alpha=scan_mesh_alpha
+        )
         self.__drawer.draw_orbit(
             species="true_orbit", orbit_color=true_orbit_color
         )

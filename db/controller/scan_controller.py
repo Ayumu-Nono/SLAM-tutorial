@@ -43,8 +43,12 @@ class ScanController:
         floor_cartesian_arr = floor_cartesian_arr.round(decimals=mesh_digit)
         assert floor_cartesian_arr.shape[1] == 2, "2次元座標が崩れてる"
         mesh: np.ndarray = np.zeros((len(mesh_xs), len(mesh_ys)))
-        ixs = np.array([np.argwhere(mesh_xs == p[0]) for p in floor_cartesian_arr])
-        iys = np.array([np.argwhere(mesh_ys == p[1]) for p in floor_cartesian_arr])
+        # 範囲外を消す
+        isin: np.ndarray = np.isin(floor_cartesian_arr[:, 0], mesh_xs) \
+            == np.isin(floor_cartesian_arr[:, 1], mesh_xs)
+        assert len(floor_cartesian_arr) == len(isin)
+        ixs = np.array([np.argwhere(mesh_xs == p[0]) for p in floor_cartesian_arr[isin]])
+        iys = np.array([np.argwhere(mesh_ys == p[1]) for p in floor_cartesian_arr[isin]])
         assert ixs.shape == iys.shape
         mesh[ixs, iys] = 1.0
         return mesh
