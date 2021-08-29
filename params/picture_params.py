@@ -20,6 +20,7 @@ rectangle_color = "gray"
 
 # Scan
 true_scan_color: str = "black"
+smtd_scan_color: str = "red"
 
 # True orbit
 true_orbit_color: str = "black"

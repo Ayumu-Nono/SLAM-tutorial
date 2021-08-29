@@ -3,7 +3,7 @@ from params.picture_params import (
     xlim, ylim, figsize, true_nose_length, true_robot_color,
     true_robot_alpha, true_robot_radius, rectangle_color, true_scan_color,
     true_orbit_color, smtd_nose_length, smtd_robot_alpha, smtd_orbit_color,
-    smtd_robot_radius, smtd_robot_color
+    smtd_robot_radius, smtd_robot_color, smtd_scan_color
 )
 
 
@@ -27,6 +27,9 @@ class Picture:
         )
         self.__drawer.draw_scan(
             species="true_scan", scan_color=true_scan_color
+        )
+        self.__drawer.draw_scan(
+            species="smtd_scan", scan_color=smtd_scan_color
         )
         self.__drawer.draw_orbit(
             species="true_orbit", orbit_color=true_orbit_color

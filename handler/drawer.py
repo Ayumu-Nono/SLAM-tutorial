@@ -16,16 +16,16 @@ class Drawer:
         rectangle_controller: RectangleController,
         true_status_controller: StatusController,
         smtd_status_controller: StatusController,
-        true_scan_controller: ScanController
+        scan_controller: ScanController
     ) -> None:
         assert isinstance(rectangle_controller, RectangleController)
         assert isinstance(true_status_controller, StatusController)
         assert isinstance(smtd_status_controller, StatusController)
-        assert isinstance(true_scan_controller, ScanController)
+        assert isinstance(scan_controller, ScanController)
         self.__rectangle_controller = rectangle_controller
         self.__true_status_controller = true_status_controller
         self.__smtd_status_controller = smtd_status_controller
-        self.__true_scan_controller = true_scan_controller
+        self.__scan_controller = scan_controller
         self.__fig: Figure = None
         self.__ax: Axes = None
 
@@ -79,7 +79,9 @@ class Drawer:
     def draw_scan(self, species: str, scan_color: str) -> bool:
         if species == "true_scan":
             status_controller = self.__true_status_controller
-            scan_controller = self.__true_scan_controller
+        elif species == "smtd_scan":
+            status_controller = self.__smtd_status_controller
+        scan_controller = self.__scan_controller
         position = status_controller.get_latest_position_as_arr()
         angle = status_controller.get_latest_angle_as_float()
         scan_points = scan_controller.get_latest_as_cartesian_arr(
