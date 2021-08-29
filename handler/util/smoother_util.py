@@ -9,8 +9,8 @@ def _calc_mesh_cost(
     assert np.count_nonzero(mesh) == np.sum(mesh)
     num = np.sum(mesh)
     diff = mesh - ref_mesh
-    not_covered_num = np.sum(diff[diff > 0])
-    assert num > not_covered_num and not_covered_num > 0
+    not_covered_num = np.sum(diff[diff >= 0])
+    assert num > not_covered_num and not_covered_num >= 0, not_covered_num
     rate = not_covered_num / num
     if rate < passing_rate:
         cost = rate

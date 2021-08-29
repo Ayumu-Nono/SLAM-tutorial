@@ -4,7 +4,13 @@ from handler.commander import Commander
 from handler.predicter import Predicter
 from handler.smoother import Smoother
 from params.hyper_params import dt
-from params.smoother_patams import mesh_digit, mesh_xs, mesh_ys
+from params.smoother_patams import (
+    mesh_digit, mesh_xs, mesh_ys,
+    passing_rate,
+    max_distance,
+    position_vs_angle_cost_ratio,
+    mesh_vs_status_cost_ratio
+)
 
 
 class Center:
@@ -35,7 +41,11 @@ class Center:
         
     def estimate_w_scan(self) -> int:
         t: int = self.__smoother.smooth(
-            mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys
+            mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys,
+            passing_rate=passing_rate,
+            max_distance=max_distance,
+            position_vs_angle_cost_ratio=position_vs_angle_cost_ratio,
+            mesh_vs_status_cost_ratio=mesh_vs_status_cost_ratio
         )
         return t
 
