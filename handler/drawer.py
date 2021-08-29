@@ -15,13 +15,16 @@ class Drawer:
         self,
         rectangle_controller: RectangleController,
         true_status_controller: StatusController,
+        smtd_status_controller: StatusController,
         true_scan_controller: ScanController
     ) -> None:
         assert isinstance(rectangle_controller, RectangleController)
         assert isinstance(true_status_controller, StatusController)
+        assert isinstance(smtd_status_controller, StatusController)
         assert isinstance(true_scan_controller, ScanController)
         self.__rectangle_controller = rectangle_controller
         self.__true_status_controller = true_status_controller
+        self.__smtd_status_controller = smtd_status_controller
         self.__true_scan_controller = true_scan_controller
         self.__fig: Figure = None
         self.__ax: Axes = None
@@ -53,6 +56,8 @@ class Drawer:
     ) -> bool:
         if species == "true_status":
             status_controller = self.__true_status_controller
+        elif species == "smtd_status":
+            status_controller = self.__smtd_status_controller
         else:
             raise KeyError("Unknown key value", species)
         position = status_controller.get_latest_position_as_arr()
@@ -89,6 +94,10 @@ class Drawer:
     def draw_orbit(self, species: str, orbit_color: str) -> bool:
         if species == "true_orbit":
             status_controller = self.__true_status_controller
+        elif species == "smtd_orbit":
+            status_controller = self.__smtd_status_controller
+        else:
+            raise KeyError("Unknown species", species)
         positions = status_controller.get_all_position_as_arr()
         self.__ax.plot(positions[:, 0], positions[:, 1], color=orbit_color)
         return True
