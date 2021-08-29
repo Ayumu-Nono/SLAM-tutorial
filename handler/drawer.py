@@ -99,7 +99,11 @@ class Drawer:
         else:
             raise KeyError("Unknown species", species)
         positions = status_controller.get_all_position_as_arr()
-        self.__ax.plot(positions[:, 0], positions[:, 1], color=orbit_color)
+        self.__ax.plot(positions[:, 0], positions[:, 1], color=orbit_color, label=species)
+        return True
+
+    def add_legend(self) -> bool:
+        self.__ax.legend()
         return True
 
     def save_fig(self, path: str) -> bool:

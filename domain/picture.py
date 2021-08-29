@@ -34,5 +34,6 @@ class Picture:
         self.__drawer.draw_orbit(
             species="smtd_orbit", orbit_color=smtd_orbit_color
         )
+        self.__drawer.add_legend()
         self.__drawer.save_fig(path)
         return True
