@@ -9,7 +9,11 @@ from params.smoother_patams import (
     passing_rate,
     max_distance,
     position_vs_angle_cost_ratio,
-    mesh_vs_status_cost_ratio
+    mesh_vs_status_cost_ratio,
+    n_particle,
+    position_scatter_rate,
+    angle_scatter_rate,
+    thre_score, max_iterate
 )
 
 
@@ -45,7 +49,12 @@ class Center:
             passing_rate=passing_rate,
             max_distance=max_distance,
             position_vs_angle_cost_ratio=position_vs_angle_cost_ratio,
-            mesh_vs_status_cost_ratio=mesh_vs_status_cost_ratio
+            mesh_vs_status_cost_ratio=mesh_vs_status_cost_ratio,
+            n_particle=n_particle,
+            position_scatter_rate=position_scatter_rate,
+            angle_scatter_rate=angle_scatter_rate,
+            thre_score=thre_score,
+            max_iterate=max_iterate
         )
         return t
 
