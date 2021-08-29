@@ -17,6 +17,10 @@ class ScanInteractor(AbstractInteractor):
         assert self.__scan_db.exist()
         return self.__scan_db.get(index=-1)
 
+    def get_2ndlatest(self) -> Scan:
+        assert self.__scan_db.get_len() >= 2
+        return self.__scan_db.get(index=-2)
+
     def get_2latest(self) -> List[Scan]:
         assert self.__scan_db.get_len() >= 2
         return [self.__scan_db.get(index=-2), self.__scan_db.get(index=-1)]
