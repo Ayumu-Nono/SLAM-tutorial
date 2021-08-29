@@ -39,6 +39,7 @@ def init() -> Tuple[Center, Robot, World, Picture]:
     drawer = Drawer(
         rectangle_controller,
         true_status_controller,
+        pred_status_controller,
         smtd_status_controller,
         scan_controller
     )

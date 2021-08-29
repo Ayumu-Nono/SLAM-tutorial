@@ -4,6 +4,8 @@ from params.picture_params import (
     true_robot_alpha, true_robot_radius, rectangle_color, true_scan_color,
     true_orbit_color, smtd_nose_length, smtd_robot_alpha, smtd_orbit_color,
     smtd_robot_radius, smtd_robot_color, smtd_scan_color,
+    pred_nose_length, pred_orbit_color, pred_robot_alpha, pred_robot_color,
+    pred_robot_radius, pred_scan_cmap, pred_scan_color, pred_scan_vrange,
     mesh_digit, mesh_xs, mesh_ys,
     true_scan_cmap, true_scan_vrange, smtd_scan_cmap, smtd_scan_vrange,
     scan_mesh_alpha, scan_mesh_zorder
@@ -22,6 +24,11 @@ class Picture:
             species="true_status", nose_length=true_nose_length,
             robot_color=true_robot_color, robot_alpha=true_robot_alpha,
             robot_radius=true_robot_radius
+        )
+        self.__drawer.draw_status(
+            species="pred_status", nose_length=pred_nose_length,
+            robot_color=pred_robot_color, robot_alpha=pred_robot_alpha,
+            robot_radius=pred_robot_radius
         )
         self.__drawer.draw_status(
             species="smtd_status", nose_length=smtd_nose_length,
@@ -50,6 +57,9 @@ class Picture:
         )
         self.__drawer.draw_orbit(
             species="true_orbit", orbit_color=true_orbit_color
+        )
+        self.__drawer.draw_orbit(
+            species="pred_orbit", orbit_color=pred_orbit_color
         )
         self.__drawer.draw_orbit(
             species="smtd_orbit", orbit_color=smtd_orbit_color

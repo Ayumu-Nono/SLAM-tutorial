@@ -16,15 +16,18 @@ class Drawer:
         self,
         rectangle_controller: RectangleController,
         true_status_controller: StatusController,
+        pred_status_controller: StatusController,
         smtd_status_controller: StatusController,
         scan_controller: ScanController
     ) -> None:
         assert isinstance(rectangle_controller, RectangleController)
         assert isinstance(true_status_controller, StatusController)
+        assert isinstance(pred_status_controller, StatusController)
         assert isinstance(smtd_status_controller, StatusController)
         assert isinstance(scan_controller, ScanController)
         self.__rectangle_controller = rectangle_controller
         self.__true_status_controller = true_status_controller
+        self.__pred_status_controller = pred_status_controller
         self.__smtd_status_controller = smtd_status_controller
         self.__scan_controller = scan_controller
         self.__fig: Figure = None
@@ -57,6 +60,8 @@ class Drawer:
     ) -> bool:
         if species == "true_status":
             status_controller = self.__true_status_controller
+        elif species == "pred_status":
+            status_controller = self.__pred_status_controller
         elif species == "smtd_status":
             status_controller = self.__smtd_status_controller
         else:
@@ -101,6 +106,8 @@ class Drawer:
     ) -> bool:
         if species == "true_scan":
             status_controller = self.__true_status_controller
+        elif species == "pred_scan":
+            status_controller = self.__pred_status_controller
         elif species == "smtd_scan":
             status_controller = self.__smtd_status_controller
         scan_controller = self.__scan_controller
@@ -121,6 +128,8 @@ class Drawer:
         if species == "true_orbit":
             status_controller = self.__true_status_controller
         elif species == "smtd_orbit":
+            status_controller = self.__smtd_status_controller
+        elif species == "pred_orbit":
             status_controller = self.__smtd_status_controller
         else:
             raise KeyError("Unknown species", species)

@@ -5,7 +5,7 @@ mesh_digit, mesh_xs, mesh_ys = mesh_digit, mesh_xs, mesh_ys
 passing_rate = 0.5
 max_distance = 10.0
 position_vs_angle_cost_ratio = 0.1
-mesh_vs_status_cost_ratio = 0.00
+mesh_vs_status_cost_ratio = 0.0001
 
 # Particle
 n_particle: int = 10
