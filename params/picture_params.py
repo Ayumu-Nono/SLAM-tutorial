@@ -1,3 +1,6 @@
+from params.hyper_params import mesh_digit, mesh_xs, mesh_ys
+
+
 xlim: tuple = (-0.1, 10.1)
 ylim: tuple = (-0.1, 10.1)
 figsize: tuple = (12, 10)
@@ -20,9 +23,18 @@ rectangle_color = "gray"
 
 # Scan
 true_scan_color: str = "black"
+true_scan_cmap: str = "binary"
+true_scan_vrange: tuple = (0.0, 1.0)
+
 smtd_scan_color: str = "red"
+smtd_scan_cmap: str = "bwr"
+smtd_scan_vrange: tuple = (-1., 1.)
 
 # True orbit
 true_orbit_color: str = "black"
 # Smtd orbit
 smtd_orbit_color: str = "red"
+
+# Mesh
+mesh_digit, mesh_xs, mesh_ys = mesh_digit, mesh_xs, mesh_ys
+

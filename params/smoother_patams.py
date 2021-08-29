@@ -1,0 +1,1 @@
+mesh_digit: int = 1  # 小数点何桁まで？

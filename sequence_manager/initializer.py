@@ -31,7 +31,7 @@ def init() -> Tuple[Center, Robot, World, Picture]:
     true_status_controller = StatusController()
     pred_status_controller = StatusController()
     smtd_status_controller = StatusController()
-    true_scan_controller = ScanController()
+    scan_controller = ScanController()
     rectangle_controller = RectangleController()
     command_controller = CommandController()
     # Handlers
@@ -40,11 +40,11 @@ def init() -> Tuple[Center, Robot, World, Picture]:
         rectangle_controller,
         true_status_controller,
         smtd_status_controller,
-        true_scan_controller
+        scan_controller
     )
     motor = Motor(true_status_controller, command_controller)
     senser = Senser(
-        true_status_controller, true_scan_controller, rectangle_controller
+        true_status_controller, scan_controller, rectangle_controller
     )
     commander = Commander(command_controller)
     predicter = Predicter(
@@ -55,7 +55,7 @@ def init() -> Tuple[Center, Robot, World, Picture]:
     smoother = Smoother(
         pred_status_controller=pred_status_controller,
         smtd_status_controller=smtd_status_controller,
-        scan_controller=true_scan_controller
+        scan_controller=scan_controller
     )
     # Domains
     center = Center(senser, motor, commander, predicter, smoother)

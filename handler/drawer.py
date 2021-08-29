@@ -4,6 +4,7 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle as PatchRectangle
 from matplotlib.patches import Circle
 import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
 
 from db.controller.rectangle_controller import RectangleController
 from db.controller.status_controller import StatusController
@@ -90,6 +91,29 @@ class Drawer:
         self.__ax.scatter(
             scan_points[:, 0], scan_points[:, 1],
             fc="white", ec=scan_color, zorder=10
+        )
+        return True
+    
+    def draw_scan_mesh(
+        self, species: str, scan_color: str,
+        mesh_digit: int, mesh_xs: np.ndarray, mesh_ys: np.ndarray,
+        cmap: str, vmin: float, vmax: float
+    ) -> bool:
+        if species == "true_scan":
+            status_controller = self.__true_status_controller
+        elif species == "smtd_scan":
+            status_controller = self.__smtd_status_controller
+        scan_controller = self.__scan_controller
+        position = status_controller.get_latest_position_as_arr()
+        angle = status_controller.get_latest_angle_as_float()
+        scan_mesh: np.ndarray = scan_controller.get_latest_as_mesh(
+            self_position=position, self_angle=angle,
+            mesh_digit=mesh_digit, mesh_xs=mesh_xs, mesh_ys=mesh_ys
+        )
+        X, Y = np.meshgrid(mesh_xs, mesh_ys)
+        self.__ax.pcolormesh(
+            X, Y, scan_mesh.T, shading="auto", norm=Normalize(vmin, vmax),
+            cmap=cmap
         )
         return True
 
