@@ -4,7 +4,7 @@ from handler.commander import Commander
 from handler.predicter import Predicter
 from handler.smoother import Smoother
 from params.hyper_params import dt
-from params.smoother_patams import (
+from params.smoother_params import (
     mesh_digit, mesh_xs, mesh_ys,
     passing_rate,
     max_distance,
