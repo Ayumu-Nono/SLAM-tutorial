@@ -18,6 +18,6 @@ class Commander:
 
     def command(self) -> int:
         t: int = self.__command_controller.push_with_float(
-            10.0, 3.0
+            1.0, .3
         )
         return t 
