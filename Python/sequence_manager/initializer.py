@@ -27,7 +27,7 @@ from params.senser_params import n_laser
 
 def init() -> Tuple[Center, Robot, World, Picture]:
     np.random.seed(seed=11)
-    # Controllers
+    # Controllers　パラメータのフェッチ
     true_status_controller = StatusController()
     pred_status_controller = StatusController()
     smtd_status_controller = StatusController()
@@ -35,14 +35,15 @@ def init() -> Tuple[Center, Robot, World, Picture]:
     rectangle_controller = RectangleController()
     command_controller = CommandController()
     # Handlers
-    creater = Creater(rectangle_controller)
-    drawer = Drawer(
+    creater = Creter(rectangle_controller) #世界を作るマン
+    drawer = Drawer( #世界を描くマン
         rectangle_controller,
         true_status_controller,
         pred_status_controller,
         smtd_status_controller,
         scan_controller
     )
+    
     motor = Motor(true_status_controller, command_controller)
     senser = Senser(
         true_status_controller, scan_controller, rectangle_controller
@@ -53,12 +54,12 @@ def init() -> Tuple[Center, Robot, World, Picture]:
         smtd_status_controller=smtd_status_controller,
         command_controller=command_controller
     )
-    smoother = Smoother(
+    smoother = Smoother( #推定とかに用いる
         pred_status_controller=pred_status_controller,
         smtd_status_controller=smtd_status_controller,
         scan_controller=scan_controller
     )
-    # Domains
+    # Domains　createrのhandler creater 
     center = Center(senser, motor, commander, predicter, smoother)
     robot = Robot(senser, motor)
     world = World(creater)
@@ -67,7 +68,7 @@ def init() -> Tuple[Center, Robot, World, Picture]:
     # init
     world.set_world()
     motor.set_noise_rate(position_noise_rate, angle_noise_rate)
-    _t1 = motor.set_initial_status(init_position, init_angle)
+    _t1 = motor.set_initial_status(init_position, init_angle)　#_変数 private変数
     _t2 = predicter.set_initial_status(init_position, init_angle)
     _t3 = senser.scan(n_laser)
     _t4 = smoother.set_initial_status(init_position, init_angle)

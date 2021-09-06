@@ -1,1 +1,1 @@
-n_laser: int = 5000
+n_laser: int = 100

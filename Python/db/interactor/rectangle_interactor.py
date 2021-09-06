@@ -27,4 +27,4 @@ class RectangleInteractor(AbstractInteractor):
         return all_rectangle
 
     def get_len(self) -> int:
-        return self.__rectangle_db.get_len()
+        return self.__rectangle_db.get_len()　#長方形の数を数える？？

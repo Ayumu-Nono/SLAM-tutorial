@@ -21,4 +21,4 @@ class RectangleDB(AbstractDB):
         return len(self.__rectangle_list) != 0
 
     def get_len(self) -> int:
-        return len(self.__rectangle_list)
+        return len(self.__rectangle_list)　#長方形の数を数える？？

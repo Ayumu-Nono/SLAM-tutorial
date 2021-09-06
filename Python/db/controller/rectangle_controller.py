@@ -11,8 +11,8 @@ class RectangleController:
         self.__rectangle_interactor: RectangleInteractor = RectangleInteractor()
 
     def push_with_arr(self, ps: np.ndarray) -> int:
-        assert isinstance(ps, np.ndarray)
-        assert ps.shape == (4, 2)
+        assert isinstance(ps, np.ndarray) #isinstance(object, classinfo)
+        assert ps.shape == (4, 2)         #psは4行2列 
         xmin = np.min(ps[:, 0])
         xmax = np.max(ps[:, 0])
         ymin = np.min(ps[:, 1])
@@ -22,12 +22,12 @@ class RectangleController:
         x0, y0 = xmin, ymin
         dx = float(xmax - xmin)
         dy = float(ymax - ymin)
-        rectangle = Rectangle(xy=(x0, y0), width=dx, height=dy)
+        rectangle = Rectangle(xy=(x0, y0), width=dx, height=dy)　#各座標を4行2列の配列にぶちこむ
         is_success: bool = self.__rectangle_interactor.push(rectangle)
         assert is_success
-        return self.__rectangle_interactor.get_len()
+        return self.__rectangle_interactor.get_len()　#行列の長さ？？？　長方形の数？？？
 
-    def push_with_keys(self, xy: tuple, width: float, height: float) -> int:
+    def push_with_keys(self, xy: tuple, width: float, height: float) -> int:　#引数で計算
         rectangle: Rectangle = Rectangle(xy, width, height)
         is_success: bool = self.__rectangle_interactor.push(rectangle)
         assert is_success
